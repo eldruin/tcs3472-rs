@@ -8,7 +8,7 @@
 //! - Enable/disable the RGB converter.
 //! - Set RGB converter gain.
 //! - Enable/disable the RGB converter interrupt generation.
-//! - Set the RGB converter interrupt low/high thresholds.
+//! - Set the RGB converter interrupt clear channel low/high thresholds.
 //! - Set the number of integration cycles.
 //! - Enable/disable the wait feature.
 //! - Set the number of wait time cycles.

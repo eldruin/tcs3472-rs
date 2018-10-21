@@ -118,12 +118,12 @@ where
         self.write_register(Register::ATIME, (256 - cycles as u16) as u8)
     }
 
-    /// Set the RGB converter interrupt lower threshold.
+    /// Set the RGB converter interrupt clear channel low threshold.
     pub fn set_rgbc_interrupt_low_threshold(&mut self, threshold: u16) -> Result<(), Error<E>> {
         self.write_registers(Register::AILTL, threshold as u8, (threshold >> 8) as u8)
     }
 
-    /// Set the RGB converter interrupt high threshold.
+    /// Set the RGB converter interrupt clear channel high threshold.
     pub fn set_rgbc_interrupt_high_threshold(&mut self, threshold: u16) -> Result<(), Error<E>> {
         self.write_registers(Register::AIHTL, threshold as u8, (threshold >> 8) as u8)
     }
