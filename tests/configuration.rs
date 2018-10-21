@@ -22,6 +22,9 @@ enable_disable_test!(can_disable, enable, disable, ENABLE,                  0);
 enable_disable_test!(can_enable_rgbc, disable_rgbc,  enable_rgbc, ENABLE, BitFlags::RGBC_EN);
 enable_disable_test!(can_disable_rgbc, enable_rgbc, disable_rgbc, ENABLE,                 0);
 
+enable_disable_test!(can_enable_rgbc_ints, disable_rgbc_interrupts,  enable_rgbc_interrupts, ENABLE, BitFlags::RGBC_INT_EN);
+enable_disable_test!(can_disable_rgbc_ints, enable_rgbc_interrupts, disable_rgbc_interrupts, ENABLE,                     0);
+
 enable_disable_test!(can_enable_wait, disable_wait,  enable_wait, ENABLE, BitFlags::WAIT_EN);
 enable_disable_test!(can_disable_wait, enable_wait, disable_wait, ENABLE,                 0);
 

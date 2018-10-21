@@ -1,4 +1,3 @@
-
 extern crate embedded_hal as hal;
 use hal::blocking::i2c;
 use super::{ Tcs3472, DEVICE_ADDRESS, Register, BitFlags, RgbCGain, Error };
@@ -31,6 +30,18 @@ where
     pub fn disable_rgbc(&mut self) -> Result<(), Error<E>> {
         let enable = self.enable;
         self.write_enable(enable & !BitFlags::RGBC_EN)
+    }
+
+    /// Enable the RGB converter interrupt generation.
+    pub fn enable_rgbc_interrupts(&mut self) -> Result<(), Error<E>> {
+        let enable = self.enable;
+        self.write_enable(enable | BitFlags::RGBC_INT_EN)
+    }
+
+    /// Disable the RGB converter interrupt generation.
+    pub fn disable_rgbc_interrupts(&mut self) -> Result<(), Error<E>> {
+        let enable = self.enable;
+        self.write_enable(enable & !BitFlags::RGBC_INT_EN)
     }
 
     /// Enable the wait feature (wait timer).

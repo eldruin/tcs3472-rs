@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - Setting the RGB converter gain.
+- Enabling/disabling the RGB converter interrupt generation.
 - Setting the number of integration cycles.
 - Reading the device ID.
 - Enabling/disabling the wait feature.

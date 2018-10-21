@@ -30,6 +30,7 @@ impl BitFlags {
     pub const POWER_ON     : u8 = 0b0000_0001; // PON
     pub const RGBC_EN      : u8 = 0b0000_0010; // AEN
     pub const WAIT_EN      : u8 = 0b0000_1000; // WEN
+    pub const RGBC_INT_EN  : u8 = 0b0001_0000; // AIEN
     pub const RGBC_VALID   : u8 = 0b0000_0001; // AVALID
     pub const WLONG        : u8 = 0b0000_0010;
 }
