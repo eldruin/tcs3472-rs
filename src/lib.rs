@@ -100,10 +100,11 @@ impl Register {
 struct BitFlags;
 
 impl BitFlags {
-    const CMD        : u8 = 0b1000_0000;
-    const POWER_ON   : u8 = 0b0000_0001; // PON
-    const RGBC_EN    : u8 = 0b0000_0010; // AEN
-    const RGBC_VALID : u8 = 0b0000_0001; // AVALID
+    const CMD          : u8 = 0b1000_0000;
+    const CMD_AUTO_INC : u8 = 0b0010_0000;
+    const POWER_ON     : u8 = 0b0000_0001; // PON
+    const RGBC_EN      : u8 = 0b0000_0010; // AEN
+    const RGBC_VALID   : u8 = 0b0000_0001; // AVALID
 }
 
 /// TCS3472 device driver.
@@ -208,7 +209,7 @@ where
     }
 
     fn read_register(&mut self, register: u8, mut data: &mut [u8]) -> Result<(), Error<E>> {
-        let command = BitFlags::CMD | register;
+        let command = BitFlags::CMD | BitFlags::CMD_AUTO_INC | register;
         self.i2c
             .write_read(DEVICE_ADDRESS, &[command], &mut data)
             .map_err(Error::I2C)

@@ -18,10 +18,11 @@ impl Register {
 struct BitFlags;
 
 impl BitFlags {
-    const CMD        : u8 = 0b1000_0000;
-    const POWER_ON   : u8 = 0b0000_0001; // PON
-    const RGBC_EN    : u8 = 0b0000_0010; // AEN
-    const RGBC_VALID : u8 = 0b0000_0001; // AVALID
+    const CMD          : u8 = 0b1000_0000;
+    const CMD_AUTO_INC : u8 = 0b0010_0000;
+    const POWER_ON     : u8 = 0b0000_0001; // PON
+    const RGBC_EN      : u8 = 0b0000_0010; // AEN
+    const RGBC_VALID   : u8 = 0b0000_0001; // AVALID
 }
 
 fn setup<'a>(data: &'a[u8]) -> Tcs3472<hal::I2cMock<'a>> {
@@ -75,7 +76,7 @@ fn can_read_rgbc_status_not_valid() {
     let mut dev = setup(&[0]);
     let is_valid = dev.is_rgbc_status_valid().unwrap();
     assert!(!is_valid);
-    check_sent_data(dev, &[BitFlags::CMD | Register::STATUS]);
+    check_sent_data(dev, &[BitFlags::CMD | BitFlags::CMD_AUTO_INC | Register::STATUS]);
 }
 
 #[test]
@@ -83,7 +84,7 @@ fn can_read_rgbc_status_valid() {
     let mut dev = setup(&[BitFlags::RGBC_VALID]);
     let is_valid = dev.is_rgbc_status_valid().unwrap();
     assert!(is_valid);
-    check_sent_data(dev, &[BitFlags::CMD | Register::STATUS]);
+    check_sent_data(dev, &[BitFlags::CMD | BitFlags::CMD_AUTO_INC | Register::STATUS]);
 }
 
 macro_rules! read_channel_test {
@@ -93,7 +94,7 @@ macro_rules! read_channel_test {
             let mut dev = setup(&[0xCD, 0xAB]);
             let data = dev.$method().unwrap();
             assert_eq!(0xABCD, data);
-            check_sent_data(dev, &[BitFlags::CMD | Register::$register]);
+            check_sent_data(dev, &[BitFlags::CMD | BitFlags::CMD_AUTO_INC | Register::$register]);
         }
     };
 }
