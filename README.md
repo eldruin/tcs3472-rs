@@ -11,6 +11,7 @@ This driver allows you to:
 - Set RGB converter gain.
 - Set the number of integration cycles.
 - Set the number of wait time cycles.
+- Enable/disable the *wait long* setting.
 - Read status of RGB converter.
 - Read the clear (unfiltered) channel measurement.
 - Read the red channel measurement.

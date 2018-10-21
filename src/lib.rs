@@ -9,6 +9,7 @@
 //! - Set RGB converter gain.
 //! - Set the number of integration cycles.
 //! - Set the number of wait time cycles.
+//! - Enable/disable the *wait long* setting.
 //! - Read status of RGB converter.
 //! - Read the clear (unfiltered) channel measurement.
 //! - Read the red channel measurement.
@@ -111,6 +112,7 @@ impl Register {
     const ENABLE   : u8 = 0x00;
     const ATIME    : u8 = 0x01;
     const WTIME    : u8 = 0x03;
+    const CONFIG   : u8 = 0x0D;
     const CONTROL  : u8 = 0x0F;
     const ID       : u8 = 0x12;
     const STATUS   : u8 = 0x13;
@@ -128,6 +130,7 @@ impl BitFlags {
     const POWER_ON     : u8 = 0b0000_0001; // PON
     const RGBC_EN      : u8 = 0b0000_0010; // AEN
     const RGBC_VALID   : u8 = 0b0000_0001; // AVALID
+    const WLONG        : u8 = 0b0000_0010;
 }
 
 /// TCS3472 device driver.

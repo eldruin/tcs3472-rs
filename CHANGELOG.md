@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Setting the number of integration cycles.
 - Reading the device ID.
 - Setting the number of wait time cycles.
+- Enabling/disabling the *wait long* setting.
 
 ### Fixed
 - Fixed selecting auto-increment command mode for multiple register reading.

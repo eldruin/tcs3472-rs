@@ -69,12 +69,30 @@ where
     /// - If *wait long* is enabled, then the wait time is increased by a
     ///   factor of 12 and therefore corresponds to:
     ///   `number_of_cycles * 0.029s`.
+    /// See [`enable_wait_long()`](#method.enable_wait_long) and
+    ///  [`disable_wait_long()`](#method.disable_wait_long).
     pub fn set_wait_cycles(&mut self, cycles: u16) -> Result<(), Error<E>> {
         if cycles > 256 || cycles == 0 {
             return Err(Error::InvalidInputData);
         }
         // the value is stored as a two's complement
         self.write_register(Register::WTIME, (256 - cycles as u16) as u8)
+    }
+
+    /// Enable the *wait long* setting.
+    ///
+    /// The wait time configured with `set_wait_cycles()` is increased by a
+    /// factor of 12. See [`set_wait_cycles()`](#method.set_wait_cycles).
+    pub fn enable_wait_long(&mut self) -> Result<(), Error<E>> {
+        self.write_register(Register::CONFIG, BitFlags::WLONG)
+    }
+
+    /// Disable the *wait long* setting.
+    ///
+    /// The wait time configured with `set_wait_cycles()` is used without
+    /// multiplication factor. See [`set_wait_cycles()`](#method.set_wait_cycles).
+    pub fn disable_wait_long(&mut self) -> Result<(), Error<E>> {
+        self.write_register(Register::CONFIG, 0)
     }
 
     fn write_register(&mut self, register: u8, value: u8) -> Result<(), Error<E>> {

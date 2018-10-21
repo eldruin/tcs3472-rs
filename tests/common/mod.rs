@@ -11,6 +11,7 @@ impl Register {
     pub const ENABLE   : u8 = 0x00;
     pub const ATIME    : u8 = 0x01;
     pub const WTIME    : u8 = 0x03;
+    pub const CONFIG   : u8 = 0x0D;
     pub const CONTROL  : u8 = 0x0F;
     pub const ID       : u8 = 0x12;
     pub const STATUS   : u8 = 0x13;
@@ -29,6 +30,7 @@ impl BitFlags {
     pub const POWER_ON     : u8 = 0b0000_0001; // PON
     pub const RGBC_EN      : u8 = 0b0000_0010; // AEN
     pub const RGBC_VALID   : u8 = 0b0000_0001; // AVALID
+    pub const WLONG        : u8 = 0b0000_0010;
 }
 
 pub fn setup<'a>(data: &'a[u8]) -> Tcs3472<hal::I2cMock<'a>> {

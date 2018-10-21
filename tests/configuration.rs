@@ -89,3 +89,17 @@ set_param_test!(can_set_ic_256, set_integration_cycles, 256, ATIME, 0x00);
 set_param_test!(can_set_wc_1,   set_wait_cycles,   1, WTIME, 0xFF);
 set_param_test!(can_set_wc_85,  set_wait_cycles,  85, WTIME, 0xAB);
 set_param_test!(can_set_wc_256, set_wait_cycles, 256, WTIME, 0x00);
+
+#[test]
+fn can_enable_wait_long() {
+    let mut dev = setup(&[0]);
+    dev.enable_wait_long().unwrap();
+    check_sent_data(dev, &[BitFlags::CMD | Register::CONFIG, BitFlags::WLONG]);
+}
+
+#[test]
+fn can_disable_wait_long() {
+    let mut dev = setup(&[0]);
+    dev.disable_wait_long().unwrap();
+    check_sent_data(dev, &[BitFlags::CMD | Register::CONFIG, 0]);
+}
