@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+...
+
+## [0.1.1] - 2018-10-21
+
+This crate is now functionally complete.
+
 ### Added
 - Setting the RGB converter gain.
 - Enabling/disabling the RGB converter interrupt generation.
@@ -26,5 +32,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 This is the initial release to crates.io. All changes will be documented in
 this CHANGELOG.
 
-[Unreleased]: https://github.com/eldruin/tcs3472-rs/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/eldruin/tcs3472-rs/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/eldruin/tcs3472-rs/compare/v0.1.0...v0.1.1
 
