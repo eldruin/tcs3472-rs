@@ -73,17 +73,17 @@ fn cannot_set_integration_cycles_greater_than_256() {
     }
 }
 
-macro_rules! set_it_cycles_test {
-    ($name:ident, $cycles:expr, $expected:expr) => {
+macro_rules! set_param_test {
+    ($name:ident, $method:ident, $cycles:expr, $register:ident, $expected:expr) => {
         #[test]
         fn $name() {
             let mut dev = setup(&[0]);
-            dev.set_integration_cycles($cycles).unwrap();
-            check_sent_data(dev, &[BitFlags::CMD | Register::ATIME, $expected]);
+            dev.$method($cycles).unwrap();
+            check_sent_data(dev, &[BitFlags::CMD | Register::$register, $expected]);
         }
     };
 }
 
-set_it_cycles_test!(can_set_it_cycles_1,     1, 0xFF);
-set_it_cycles_test!(can_set_it_cycles_10,   10, 0xF6);
-set_it_cycles_test!(can_set_it_cycles_256, 256, 0x00);
+set_param_test!(can_set_it_cycles_1,   set_integration_cycles,   1, ATIME, 0xFF);
+set_param_test!(can_set_it_cycles_10,  set_integration_cycles,  10, ATIME, 0xF6);
+set_param_test!(can_set_it_cycles_256, set_integration_cycles, 256, ATIME, 0x00);
