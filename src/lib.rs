@@ -6,6 +6,7 @@
 //! This driver allows you to:
 //! - Enable/disable the device.
 //! - Enable/disable the RGB converter.
+//! - Set RGB converter gain.
 //! - Read status of RGB converter.
 //! - Read the clear (unfiltered) channel measurement.
 //! - Read the red channel measurement.
@@ -84,12 +85,26 @@ pub enum Error<E> {
     I2C(E),
 }
 
+/// RGB converter gain
+#[derive(Debug, Clone, PartialEq)]
+pub enum RgbCGain {
+    /// 1x gain
+    _1x,
+    /// 4x gain
+    _4x,
+    /// 16x gain
+    _16x,
+    /// 60x gain
+    _60x
+}
+
 const DEVICE_ADDRESS: u8 = 0x29;
 
 struct Register;
 
 impl Register {
     const ENABLE   : u8 = 0x00;
+    const CONTROL  : u8 = 0x0F;
     const STATUS   : u8 = 0x13;
     const CDATA    : u8 = 0x14;
     const RDATA    : u8 = 0x16;

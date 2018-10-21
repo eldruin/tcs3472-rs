@@ -1,7 +1,7 @@
 
 extern crate embedded_hal as hal;
 use hal::blocking::i2c;
-use super::{ Tcs3472, DEVICE_ADDRESS, Register, BitFlags, Error };
+use super::{ Tcs3472, DEVICE_ADDRESS, Register, BitFlags, RgbCGain, Error };
 
 impl<I2C, E> Tcs3472<I2C>
 where
@@ -34,11 +34,25 @@ where
     }
 
     fn write_enable(&mut self, enable: u8) -> Result<(), Error<E>> {
-        let command = BitFlags::CMD | Register::ENABLE;
-        self.i2c
-            .write(DEVICE_ADDRESS, &[command, enable])
-            .map_err(Error::I2C)?;
+        self.write_register(Register::ENABLE, enable)?;
         self.enable = enable;
         Ok(())
+    }
+
+    /// Set the RGB converter gain
+    pub fn set_rgbc_gain(&mut self, gain: RgbCGain) -> Result<(), Error<E>> {
+        match gain {
+            RgbCGain::_1x  => self.write_register(Register::CONTROL, 0),
+            RgbCGain::_4x  => self.write_register(Register::CONTROL, 1),
+            RgbCGain::_16x => self.write_register(Register::CONTROL, 2),
+            RgbCGain::_60x => self.write_register(Register::CONTROL, 3),
+        }
+    }
+
+    fn write_register(&mut self, register: u8, value: u8) -> Result<(), Error<E>> {
+        let command = BitFlags::CMD | register;
+        self.i2c
+            .write(DEVICE_ADDRESS, &[command, value])
+            .map_err(Error::I2C)
     }
 }
