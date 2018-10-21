@@ -41,6 +41,7 @@ where
 
     /// Set the RGB converter gain
     pub fn set_rgbc_gain(&mut self, gain: RgbCGain) -> Result<(), Error<E>> {
+        // Register field: AGAIN
         match gain {
             RgbCGain::_1x  => self.write_register(Register::CONTROL, 0),
             RgbCGain::_4x  => self.write_register(Register::CONTROL, 1),
