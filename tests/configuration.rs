@@ -64,7 +64,7 @@ macro_rules! set_invalid_param_test {
 set_invalid_param_test!(cannot_set_ic_0,           set_integration_cycles,   0);
 set_invalid_param_test!(cannot_set_ic_greater_256, set_integration_cycles, 257);
 
-macro_rules! set_param_test {
+macro_rules! set_cycles_param_test {
     ($name:ident, $method:ident, $cycles:expr, $register:ident, $expected:expr) => {
         #[test]
         fn $name() {
@@ -75,10 +75,31 @@ macro_rules! set_param_test {
     };
 }
 
-set_param_test!(can_set_ic_1,   set_integration_cycles,   1, ATIME, 0xFF);
-set_param_test!(can_set_ic_10,  set_integration_cycles,  10, ATIME, 0xF6);
-set_param_test!(can_set_ic_256, set_integration_cycles, 256, ATIME, 0x00);
+set_cycles_param_test!(can_set_ic_1,   set_integration_cycles,   1, ATIME, 0xFF);
+set_cycles_param_test!(can_set_ic_10,  set_integration_cycles,  10, ATIME, 0xF6);
+set_cycles_param_test!(can_set_ic_256, set_integration_cycles, 256, ATIME, 0x00);
 
-set_param_test!(can_set_wc_1,   set_wait_cycles,   1, WTIME, 0xFF);
-set_param_test!(can_set_wc_85,  set_wait_cycles,  85, WTIME, 0xAB);
-set_param_test!(can_set_wc_256, set_wait_cycles, 256, WTIME, 0x00);
+set_cycles_param_test!(can_set_wc_1,   set_wait_cycles,   1, WTIME, 0xFF);
+set_cycles_param_test!(can_set_wc_85,  set_wait_cycles,  85, WTIME, 0xAB);
+set_cycles_param_test!(can_set_wc_256, set_wait_cycles, 256, WTIME, 0x00);
+
+macro_rules! set_param_test {
+    ($name:ident, $method:ident, $value:expr, $register:ident, $expected0:expr, $expected1:expr) => {
+        #[test]
+        fn $name() {
+            let mut dev = setup(&[0]);
+            dev.$method($value).unwrap();
+            check_sent_data(dev, &[BitFlags::CMD | BitFlags::CMD_AUTO_INC | Register::$register,
+                                   $expected0, $expected1]);
+        }
+    };
+}
+set_param_test!(can_set_rgbc_int_low_th_0,   set_rgbc_interrupt_low_threshold,     0, AILTL,   0,  0);
+set_param_test!(can_set_rgbc_int_low_th_1,   set_rgbc_interrupt_low_threshold,     1, AILTL,   1,  0);
+set_param_test!(can_set_rgbc_int_low_th_256, set_rgbc_interrupt_low_threshold,   256, AILTL,   0,  1);
+set_param_test!(can_set_rgbc_int_low_th_max, set_rgbc_interrupt_low_threshold, 65535, AILTL, 255, 255);
+
+set_param_test!(can_set_rgbc_int_high_th_0,   set_rgbc_interrupt_high_threshold,     0, AIHTL,   0,  0);
+set_param_test!(can_set_rgbc_int_high_th_1,   set_rgbc_interrupt_high_threshold,     1, AIHTL,   1,  0);
+set_param_test!(can_set_rgbc_int_high_th_256, set_rgbc_interrupt_high_threshold,   256, AIHTL,   0,  1);
+set_param_test!(can_set_rgbc_int_high_th_max, set_rgbc_interrupt_high_threshold, 65535, AIHTL, 255, 255);

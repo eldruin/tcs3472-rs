@@ -11,6 +11,8 @@ impl Register {
     pub const ENABLE   : u8 = 0x00;
     pub const ATIME    : u8 = 0x01;
     pub const WTIME    : u8 = 0x03;
+    pub const AILTL    : u8 = 0x04;
+    pub const AIHTL    : u8 = 0x06;
     pub const CONFIG   : u8 = 0x0D;
     pub const CONTROL  : u8 = 0x0F;
     pub const ID       : u8 = 0x12;

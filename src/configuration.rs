@@ -118,10 +118,27 @@ where
         self.write_register(Register::ATIME, (256 - cycles as u16) as u8)
     }
 
+    /// Set the RGB converter interrupt lower threshold.
+    pub fn set_rgbc_interrupt_low_threshold(&mut self, threshold: u16) -> Result<(), Error<E>> {
+        self.write_registers(Register::AILTL, threshold as u8, (threshold >> 8) as u8)
+    }
+
+    /// Set the RGB converter interrupt high threshold.
+    pub fn set_rgbc_interrupt_high_threshold(&mut self, threshold: u16) -> Result<(), Error<E>> {
+        self.write_registers(Register::AIHTL, threshold as u8, (threshold >> 8) as u8)
+    }
+
     fn write_register(&mut self, register: u8, value: u8) -> Result<(), Error<E>> {
         let command = BitFlags::CMD | register;
         self.i2c
             .write(DEVICE_ADDRESS, &[command, value])
+            .map_err(Error::I2C)
+    }
+
+    fn write_registers(&mut self, register: u8, value0: u8, value1: u8) -> Result<(), Error<E>> {
+        let command = BitFlags::CMD | BitFlags::CMD_AUTO_INC | register;
+        self.i2c
+            .write(DEVICE_ADDRESS, &[command, value0, value1])
             .map_err(Error::I2C)
     }
 }

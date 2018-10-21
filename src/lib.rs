@@ -8,6 +8,7 @@
 //! - Enable/disable the RGB converter.
 //! - Set RGB converter gain.
 //! - Enable/disable the RGB converter interrupt generation.
+//! - Set the RGB converter interrupt low/high thresholds.
 //! - Set the number of integration cycles.
 //! - Enable/disable the wait feature.
 //! - Set the number of wait time cycles.
@@ -114,6 +115,8 @@ impl Register {
     const ENABLE   : u8 = 0x00;
     const ATIME    : u8 = 0x01;
     const WTIME    : u8 = 0x03;
+    const AILTL    : u8 = 0x04;
+    const AIHTL    : u8 = 0x06;
     const CONFIG   : u8 = 0x0D;
     const CONTROL  : u8 = 0x0F;
     const ID       : u8 = 0x12;
