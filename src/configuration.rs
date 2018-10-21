@@ -69,7 +69,7 @@ where
     /// - If *wait long* is disabled, then the wait time corresponds to:
     ///   `number_of_cycles * 2.4ms`.
     /// - If *wait long* is enabled, then the wait time is increased by a
-    ///   factor of 12 and therefore corresponds to:
+    ///   factor of 12 and therefore corresponds to aproximately:
     ///   `number_of_cycles * 0.029s`.
     /// See [`enable_wait_long()`](#method.enable_wait_long) and
     ///  [`disable_wait_long()`](#method.disable_wait_long).
