@@ -1,6 +1,7 @@
 extern crate embedded_hal as hal;
 use hal::blocking::i2c;
-use super::{ Tcs3472, DEVICE_ADDRESS, Register, BitFlags, RgbCGain, Error };
+use super::{ Tcs3472, DEVICE_ADDRESS, Register, BitFlags, RgbCGain,
+             RgbCInterruptPersistence, Error };
 
 impl<I2C, E> Tcs3472<I2C>
 where
@@ -126,6 +127,32 @@ where
     /// Set the RGB converter interrupt clear channel high threshold.
     pub fn set_rgbc_interrupt_high_threshold(&mut self, threshold: u16) -> Result<(), Error<E>> {
         self.write_registers(Register::AIHTL, threshold as u8, (threshold >> 8) as u8)
+    }
+
+    /// Set the RGB converter interrupt persistence.
+    ///
+    /// This controls the RGB converter interrupt generation rate.
+    pub fn set_rgbc_interrupt_persistence(&mut self, persistence: RgbCInterruptPersistence) -> Result<(), Error<E>> {
+        use RgbCInterruptPersistence as IP;
+        match persistence {
+            IP::Every => self.write_register(Register::APERS,  0),
+            IP::_1    => self.write_register(Register::APERS,  1),
+            IP::_2    => self.write_register(Register::APERS,  2),
+            IP::_3    => self.write_register(Register::APERS,  3),
+            IP::_5    => self.write_register(Register::APERS,  4),
+            IP::_10   => self.write_register(Register::APERS,  5),
+            IP::_15   => self.write_register(Register::APERS,  6),
+            IP::_20   => self.write_register(Register::APERS,  7),
+            IP::_25   => self.write_register(Register::APERS,  8),
+            IP::_30   => self.write_register(Register::APERS,  9),
+            IP::_35   => self.write_register(Register::APERS, 10),
+            IP::_40   => self.write_register(Register::APERS, 11),
+            IP::_45   => self.write_register(Register::APERS, 12),
+            IP::_50   => self.write_register(Register::APERS, 13),
+            IP::_55   => self.write_register(Register::APERS, 14),
+            IP::_60   => self.write_register(Register::APERS, 15),
+        }
+        
     }
 
     fn write_register(&mut self, register: u8, value: u8) -> Result<(), Error<E>> {

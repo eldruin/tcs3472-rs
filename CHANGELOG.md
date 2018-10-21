@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Setting the RGB converter gain.
 - Enabling/disabling the RGB converter interrupt generation.
 - Setting the RGB converter interrupt clear channel low/high thresholds.
+- Setting the RGB converter interrupt persistence.
 - Setting the number of integration cycles.
 - Reading the device ID.
 - Enabling/disabling the wait feature.

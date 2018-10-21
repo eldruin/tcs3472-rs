@@ -9,6 +9,7 @@
 //! - Set RGB converter gain.
 //! - Enable/disable the RGB converter interrupt generation.
 //! - Set the RGB converter interrupt clear channel low/high thresholds.
+//! - Set the RGB converter interrupt persistence.
 //! - Set the number of integration cycles.
 //! - Enable/disable the wait feature.
 //! - Set the number of wait time cycles.
@@ -107,6 +108,46 @@ pub enum RgbCGain {
     _60x
 }
 
+/// RGB converter interrupt persistence
+///
+/// This controls the RGB converter interrupt generation rate.
+#[derive(Debug, Clone, PartialEq)]
+pub enum RgbCInterruptPersistence {
+    /// Every RGBC cycle generates an interrupt.
+    Every,
+    /// 1 clear channel value out of range.
+    _1,
+    /// 2 clear channel consecutive values out of range.
+    _2,
+    /// 3 clear channel consecutive values out of range.
+    _3,
+    /// 5 clear channel consecutive values out of range.
+    _5,
+    /// 10 clear channel consecutive values out of range.
+    _10,
+    /// 15 clear channel consecutive values out of range.
+    _15,
+    /// 20 clear channel consecutive values out of range.
+    _20,
+    /// 25 clear channel consecutive values out of range.
+    _25,
+    /// 30 clear channel consecutive values out of range.
+    _30,
+    /// 35 clear channel consecutive values out of range.
+    _35,
+    /// 40 clear channel consecutive values out of range.
+    _40,
+    /// 45 clear channel consecutive values out of range.
+    _45,
+    /// 50 clear channel consecutive values out of range.
+    _50,
+    /// 55 clear channel consecutive values out of range.
+    _55,
+    /// 60 clear channel consecutive values out of range.
+    _60,
+}
+
+
 const DEVICE_ADDRESS: u8 = 0x29;
 
 struct Register;
@@ -117,6 +158,7 @@ impl Register {
     const WTIME    : u8 = 0x03;
     const AILTL    : u8 = 0x04;
     const AIHTL    : u8 = 0x06;
+    const APERS    : u8 = 0x0C;
     const CONFIG   : u8 = 0x0D;
     const CONTROL  : u8 = 0x0F;
     const ID       : u8 = 0x12;
