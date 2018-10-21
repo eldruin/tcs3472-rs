@@ -33,6 +33,18 @@ where
         self.write_enable(enable & !BitFlags::RGBC_EN)
     }
 
+    /// Enable the wait feature (wait timer).
+    pub fn enable_wait(&mut self) -> Result<(), Error<E>> {
+        let enable = self.enable;
+        self.write_enable(enable | BitFlags::WAIT_EN)
+    }
+
+    /// Disable the wait feature (wait timer).
+    pub fn disable_wait(&mut self) -> Result<(), Error<E>> {
+        let enable = self.enable;
+        self.write_enable(enable & !BitFlags::WAIT_EN)
+    }
+
     fn write_enable(&mut self, enable: u8) -> Result<(), Error<E>> {
         self.write_register(Register::ENABLE, enable)?;
         self.enable = enable;
@@ -94,7 +106,7 @@ where
     pub fn disable_wait_long(&mut self) -> Result<(), Error<E>> {
         self.write_register(Register::CONFIG, 0)
     }
-
+    
     fn write_register(&mut self, register: u8, value: u8) -> Result<(), Error<E>> {
         let command = BitFlags::CMD | register;
         self.i2c

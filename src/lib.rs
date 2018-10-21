@@ -8,6 +8,7 @@
 //! - Enable/disable the RGB converter.
 //! - Set RGB converter gain.
 //! - Set the number of integration cycles.
+//! - Enable/disable the wait feature.
 //! - Set the number of wait time cycles.
 //! - Enable/disable the *wait long* setting.
 //! - Read status of RGB converter.
@@ -129,6 +130,7 @@ impl BitFlags {
     const CMD_AUTO_INC : u8 = 0b0010_0000;
     const POWER_ON     : u8 = 0b0000_0001; // PON
     const RGBC_EN      : u8 = 0b0000_0010; // AEN
+    const WAIT_EN      : u8 = 0b0000_1000; // WEN
     const RGBC_VALID   : u8 = 0b0000_0001; // AVALID
     const WLONG        : u8 = 0b0000_0010;
 }

@@ -10,6 +10,7 @@ This driver allows you to:
 - Enable/disable the RGB converter.
 - Set RGB converter gain.
 - Set the number of integration cycles.
+- Enable/disable the wait feature.
 - Set the number of wait time cycles.
 - Enable/disable the *wait long* setting.
 - Read status of RGB converter.

@@ -103,3 +103,18 @@ fn can_disable_wait_long() {
     dev.disable_wait_long().unwrap();
     check_sent_data(dev, &[BitFlags::CMD | Register::CONFIG, 0]);
 }
+
+#[test]
+fn can_enable_wait() {
+    let mut dev = setup(&[0]);
+    dev.enable_wait().unwrap();
+    check_sent_data(dev, &[ENABLE_CMD, BitFlags::WAIT_EN]);
+}
+
+#[test]
+fn can_disable_wait() {
+    let mut dev = setup(&[0]);
+    dev.enable_wait().unwrap();
+    dev.disable_wait().unwrap();
+    check_sent_data(dev, &[ENABLE_CMD, 0]);
+}
