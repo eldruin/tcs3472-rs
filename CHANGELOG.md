@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Setting the RGB converter gain.
 - Setting the number of integration cycles.
 - Reading the device ID.
+- Setting the number of wait time cycles.
 
 ### Fixed
 - Fixed selecting auto-increment command mode for multiple register reading.

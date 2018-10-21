@@ -8,6 +8,7 @@
 //! - Enable/disable the RGB converter.
 //! - Set RGB converter gain.
 //! - Set the number of integration cycles.
+//! - Set the number of wait time cycles.
 //! - Read status of RGB converter.
 //! - Read the clear (unfiltered) channel measurement.
 //! - Read the red channel measurement.
@@ -109,6 +110,7 @@ struct Register;
 impl Register {
     const ENABLE   : u8 = 0x00;
     const ATIME    : u8 = 0x01;
+    const WTIME    : u8 = 0x03;
     const CONTROL  : u8 = 0x0F;
     const ID       : u8 = 0x12;
     const STATUS   : u8 = 0x13;

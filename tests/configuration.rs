@@ -85,3 +85,7 @@ macro_rules! set_param_test {
 set_param_test!(can_set_ic_1,   set_integration_cycles,   1, ATIME, 0xFF);
 set_param_test!(can_set_ic_10,  set_integration_cycles,  10, ATIME, 0xF6);
 set_param_test!(can_set_ic_256, set_integration_cycles, 256, ATIME, 0x00);
+
+set_param_test!(can_set_wc_1,   set_wait_cycles,   1, WTIME, 0xFF);
+set_param_test!(can_set_wc_85,  set_wait_cycles,  85, WTIME, 0xAB);
+set_param_test!(can_set_wc_256, set_wait_cycles, 256, WTIME, 0x00);

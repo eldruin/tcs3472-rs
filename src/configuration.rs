@@ -61,6 +61,22 @@ where
         self.write_register(Register::ATIME, (256 - cycles as u16) as u8)
     }
 
+    /// Set the number of wait time cycles  (1-256).
+    ///
+    /// The actual wait time depends on the "*wait long*" setting.
+    /// - If *wait long* is disabled, then the wait time corresponds to:
+    ///   `number_of_cycles * 2.4ms`.
+    /// - If *wait long* is enabled, then the wait time is increased by a
+    ///   factor of 12 and therefore corresponds to:
+    ///   `number_of_cycles * 0.029s`.
+    pub fn set_wait_cycles(&mut self, cycles: u16) -> Result<(), Error<E>> {
+        if cycles > 256 || cycles == 0 {
+            return Err(Error::InvalidInputData);
+        }
+        // the value is stored as a two's complement
+        self.write_register(Register::WTIME, (256 - cycles as u16) as u8)
+    }
+
     fn write_register(&mut self, register: u8, value: u8) -> Result<(), Error<E>> {
         let command = BitFlags::CMD | register;
         self.i2c
