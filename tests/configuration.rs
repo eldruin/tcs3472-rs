@@ -55,23 +55,21 @@ set_rgbc_gain_test!(can_set_rgbc_gain_4x,   _4x, 1);
 set_rgbc_gain_test!(can_set_rgbc_gain_16x, _16x, 2);
 set_rgbc_gain_test!(can_set_rgbc_gain_60x, _60x, 3);
 
-#[test]
-fn cannot_set_integration_cycles_to_0() {
-    let mut dev = setup(&[0]);
-    match dev.set_integration_cycles(0) {
-        Err(Error::InvalidInputData) => (),
-        _ => panic!()
-    }
+macro_rules! set_invalid_param_test {
+    ($name:ident, $method:ident, $value:expr) => {
+        #[test]
+        fn $name() {
+            let mut dev = setup(&[0]);
+            match dev.$method($value) {
+                Err(Error::InvalidInputData) => (),
+                _ => panic!()
+            }
+        }
+    };
 }
 
-#[test]
-fn cannot_set_integration_cycles_greater_than_256() {
-    let mut dev = setup(&[0]);
-    match dev.set_integration_cycles(257) {
-        Err(Error::InvalidInputData) => (),
-        _ => panic!()
-    }
-}
+set_invalid_param_test!(cannot_set_ic_0,           set_integration_cycles,   0);
+set_invalid_param_test!(cannot_set_ic_greater_256, set_integration_cycles, 257);
 
 macro_rules! set_param_test {
     ($name:ident, $method:ident, $cycles:expr, $register:ident, $expected:expr) => {
