@@ -12,6 +12,7 @@
 //! - Read the red channel measurement.
 //! - Read the green channel measurement.
 //! - Read the blue channel measurement.
+//! - Read the device ID.
 //!
 //! ## The device
 //!
@@ -105,6 +106,7 @@ struct Register;
 impl Register {
     const ENABLE   : u8 = 0x00;
     const CONTROL  : u8 = 0x0F;
+    const ID       : u8 = 0x12;
     const STATUS   : u8 = 0x13;
     const CDATA    : u8 = 0x14;
     const RDATA    : u8 = 0x16;

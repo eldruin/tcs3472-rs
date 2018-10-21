@@ -14,6 +14,7 @@ This driver allows you to:
 - Read the red channel measurement.
 - Read the green channel measurement.
 - Read the blue channel measurement.
+- Read the device ID.
 
 ## The device
 The TCS3472 device provides a digital return of red, green, blue (RGB), and

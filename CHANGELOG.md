@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- Setting the RGB converter gain.
+- Reading the device ID.
+
 ### Fixed
 - Fixed selecting auto-increment command mode for multiple register reading.
 

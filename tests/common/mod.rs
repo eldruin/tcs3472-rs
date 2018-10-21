@@ -10,6 +10,7 @@ pub struct Register;
 impl Register {
     pub const ENABLE   : u8 = 0x00;
     pub const CONTROL  : u8 = 0x0F;
+    pub const ID       : u8 = 0x12;
     pub const STATUS   : u8 = 0x13;
     pub const CDATA    : u8 = 0x14;
     pub const RDATA    : u8 = 0x16;
