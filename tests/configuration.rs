@@ -3,7 +3,7 @@ extern crate embedded_hal_mock as hal;
 
 mod common;
 use common::{ setup, check_sent_data, Register, BitFlags };
-use tcs3472::RgbCGain;
+use tcs3472::{ Error, RgbCGain };
 
 const ENABLE_CMD : u8 = BitFlags::CMD | Register::ENABLE;
 
@@ -54,3 +54,36 @@ set_rgbc_gain_test!(can_set_rgbc_gain_1x,   _1x, 0);
 set_rgbc_gain_test!(can_set_rgbc_gain_4x,   _4x, 1);
 set_rgbc_gain_test!(can_set_rgbc_gain_16x, _16x, 2);
 set_rgbc_gain_test!(can_set_rgbc_gain_60x, _60x, 3);
+
+#[test]
+fn cannot_set_integration_cycles_to_0() {
+    let mut dev = setup(&[0]);
+    match dev.set_integration_cycles(0) {
+        Err(Error::InvalidInputData) => (),
+        _ => panic!()
+    }
+}
+
+#[test]
+fn cannot_set_integration_cycles_greater_than_256() {
+    let mut dev = setup(&[0]);
+    match dev.set_integration_cycles(257) {
+        Err(Error::InvalidInputData) => (),
+        _ => panic!()
+    }
+}
+
+macro_rules! set_it_cycles_test {
+    ($name:ident, $cycles:expr, $expected:expr) => {
+        #[test]
+        fn $name() {
+            let mut dev = setup(&[0]);
+            dev.set_integration_cycles($cycles).unwrap();
+            check_sent_data(dev, &[BitFlags::CMD | Register::ATIME, $expected]);
+        }
+    };
+}
+
+set_it_cycles_test!(can_set_it_cycles_1,     1, 0xFF);
+set_it_cycles_test!(can_set_it_cycles_10,   10, 0xF6);
+set_it_cycles_test!(can_set_it_cycles_256, 256, 0x00);

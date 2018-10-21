@@ -39,7 +39,7 @@ where
         Ok(())
     }
 
-    /// Set the RGB converter gain
+    /// Set the RGB converter gain.
     pub fn set_rgbc_gain(&mut self, gain: RgbCGain) -> Result<(), Error<E>> {
         // Register field: AGAIN
         match gain {
@@ -48,6 +48,17 @@ where
             RgbCGain::_16x => self.write_register(Register::CONTROL, 2),
             RgbCGain::_60x => self.write_register(Register::CONTROL, 3),
         }
+    }
+
+    /// Set the number of integration cycles (1-256).
+    ///
+    /// The actual integration time corresponds to: `number_of_cycles * 2.4ms`.
+    pub fn set_integration_cycles(&mut self, cycles: u16) -> Result<(), Error<E>> {
+        if cycles > 256 || cycles == 0 {
+            return Err(Error::InvalidInputData);
+        }
+        // the value is stored as a two's complement
+        self.write_register(Register::ATIME, (256 - cycles as u16) as u8)
     }
 
     fn write_register(&mut self, register: u8, value: u8) -> Result<(), Error<E>> {

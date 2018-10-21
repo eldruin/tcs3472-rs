@@ -9,6 +9,7 @@ This driver allows you to:
 - Enable/disable the device.
 - Enable/disable the RGB converter.
 - Set RGB converter gain.
+- Set the number of integration cycles.
 - Read status of RGB converter.
 - Read the clear (unfiltered) channel measurement.
 - Read the red channel measurement.
