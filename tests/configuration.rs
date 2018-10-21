@@ -82,6 +82,6 @@ macro_rules! set_param_test {
     };
 }
 
-set_param_test!(can_set_it_cycles_1,   set_integration_cycles,   1, ATIME, 0xFF);
-set_param_test!(can_set_it_cycles_10,  set_integration_cycles,  10, ATIME, 0xF6);
-set_param_test!(can_set_it_cycles_256, set_integration_cycles, 256, ATIME, 0x00);
+set_param_test!(can_set_ic_1,   set_integration_cycles,   1, ATIME, 0xFF);
+set_param_test!(can_set_ic_10,  set_integration_cycles,  10, ATIME, 0xF6);
+set_param_test!(can_set_ic_256, set_integration_cycles, 256, ATIME, 0x00);
