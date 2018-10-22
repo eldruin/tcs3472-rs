@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-...
+- Reading the measurement of all channels at once.
 
 ## [0.1.1] - 2018-10-21
 

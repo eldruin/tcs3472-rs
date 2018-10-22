@@ -1,7 +1,8 @@
 
 extern crate embedded_hal as hal;
 use hal::blocking::i2c;
-use super::{ Tcs3472, DEVICE_ADDRESS, Register, BitFlags, Error };
+use super::{ Tcs3472, DEVICE_ADDRESS, Register, BitFlags,
+             AllChannelMeasurement, Error };
 
 impl<I2C, E> Tcs3472<I2C>
 where
@@ -39,6 +40,18 @@ where
         let mut cdata = [0; 2];
         self.read_registers(first_register, &mut cdata)?;
         Ok((cdata[1] as u16) << 8 | cdata[0] as u16)
+    }
+
+    /// Read the measurement data of all channels at once.
+    pub fn read_all_channels(&mut self) -> Result<AllChannelMeasurement, Error<E>> {
+        let mut data = [0; 8];
+        self.read_registers(Register::CDATA, &mut data)?;
+        Ok(AllChannelMeasurement {
+            clear: (data[1] as u16) << 8 | data[0] as u16,
+            red:   (data[3] as u16) << 8 | data[2] as u16,
+            green: (data[5] as u16) << 8 | data[4] as u16,
+            blue:  (data[7] as u16) << 8 | data[6] as u16,
+           })
     }
 
     /// Read the device ID.

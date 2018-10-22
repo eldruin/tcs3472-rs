@@ -38,6 +38,17 @@ read_channel_test!(can_read_green_channel, read_green_channel, GDATA);
 read_channel_test!(can_read_blue_channel,  read_blue_channel,  BDATA);
 
 #[test]
+fn can_read_all_channels_at_once() {
+    let mut dev = setup(&[0x23, 0x01, 0x67, 0x45, 0xAB, 0x89, 0xEF, 0xCD]);
+    let measurement = dev.read_all_channels().unwrap();
+    assert_eq!(0x0123, measurement.clear);
+    assert_eq!(0x4567, measurement.red);
+    assert_eq!(0x89AB, measurement.green);
+    assert_eq!(0xCDEF, measurement.blue);
+    check_sent_data(dev, &[BitFlags::CMD | BitFlags::CMD_AUTO_INC | Register::CDATA]);
+}
+
+#[test]
 fn can_read_device_id() {
     let mut dev = setup(&[0x44]);
     let id = dev.read_device_id().unwrap();

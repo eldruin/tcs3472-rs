@@ -21,6 +21,7 @@ This driver allows you to:
 - Read the red channel measurement.
 - Read the green channel measurement.
 - Read the blue channel measurement.
+- Read the measurement of all channels at once.
 - Read the device ID.
 
 ## The device

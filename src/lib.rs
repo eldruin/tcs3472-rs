@@ -19,6 +19,7 @@
 //! - Read the red channel measurement.
 //! - Read the green channel measurement.
 //! - Read the blue channel measurement.
+//! - Read the measurement of all channels at once.
 //! - Read the device ID.
 //!
 //! ## The device
@@ -76,6 +77,32 @@
 //!
 //! println!("Measurements: clear = {}, red = {}, green = {}, blue = {}",
 //!          clear, red, green, blue);
+//! # }
+//! ```
+//!
+//! ### Read all the channels at once
+//!
+//! ```no_run
+//! extern crate linux_embedded_hal as hal;
+//! extern crate tcs3472;
+//!
+//! use hal::I2cdev;
+//! use tcs3472::Tcs3472;
+//!
+//! # fn main() {
+//! let dev = I2cdev::new("/dev/i2c-1").unwrap();
+//! let mut sensor = Tcs3472::new(dev);
+//! sensor.enable().unwrap();
+//! sensor.enable_rgbc().unwrap();
+//! while !sensor.is_rgbc_status_valid().unwrap() {
+//!     // wait for measurement to be available
+//! };
+//!
+//! let measurement = sensor.read_all_channels().unwrap();
+//!
+//! println!("Measurements: clear = {}, red = {}, green = {}, blue = {}",
+//!          measurement.clear, measurement.red, measurement.green,
+//!          measurement.blue);
 //! # }
 //! ```
 //!
@@ -206,6 +233,18 @@ pub enum RgbCInterruptPersistence {
     _55,
     /// 60 clear channel consecutive values out of range.
     _60,
+}
+
+/// Result of measurement of all channels
+pub struct AllChannelMeasurement {
+    /// Red channel measurement.
+    pub red: u16,
+    /// Green channel measurement.
+    pub green: u16,
+    /// Blue channel measurement.
+    pub blue: u16,
+    /// Clear (unfiltered) channel measurement.
+    pub clear: u16
 }
 
 
