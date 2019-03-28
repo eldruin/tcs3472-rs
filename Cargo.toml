@@ -11,12 +11,12 @@ categories = ["embedded", "hardware-support", "no-std"]
 homepage = "https://github.com/eldruin/tcs3472-rs"
 documentation = "https://docs.rs/tcs3472"
 include = [
-    "**/*.rs",
-    "Cargo.toml",
-    "README.md",
-    "CHANGELOG.md",
-    "LICENSE-MIT",
-    "LICENSE-APACHE",
+    "/**/*.rs",
+    "/Cargo.toml",
+    "/README.md",
+    "/CHANGELOG.md",
+    "/LICENSE-MIT",
+    "/LICENSE-APACHE",
 ]
 
 [badges.travis-ci]
