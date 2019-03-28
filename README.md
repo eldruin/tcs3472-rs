@@ -1,4 +1,11 @@
-# Rust TCS3472 RGB Color Light to Digital Converter with IR Filter Driver [![crates.io](https://img.shields.io/crates/v/tcs3472.svg)](https://crates.io/crates/tcs3472) [![Docs](https://docs.rs/tcs3472/badge.svg)](https://docs.rs/tcs3472) [![Build Status](https://travis-ci.org/eldruin/tcs3472-rs.svg?branch=master)](https://travis-ci.org/eldruin/tcs3472-rs)
+# Rust TCS3472 RGB Color Light to Digital Converter with IR Filter Driver
+
+[![crates.io](https://img.shields.io/crates/v/tcs3472.svg)](https://crates.io/crates/tcs3472)
+[![Docs](https://docs.rs/tcs3472/badge.svg)](https://docs.rs/tcs3472)
+[![Build Status](https://travis-ci.org/eldruin/tcs3472-rs.svg?branch=master)](https://travis-ci.org/eldruin/tcs3472-rs)
+[![Coverage Status](https://coveralls.io/repos/github/eldruin/tcs3472-rs/badge.svg?branch=master)](https://coveralls.io/github/eldruin/tcs3472-rs?branch=master)
+![Maintenance Intention](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg)
+
 
 This is a platform agnostic Rust driver for the TCS3472 RGB color light to
 digital converter with IR filter, based on the [`embedded-hal`] traits.
