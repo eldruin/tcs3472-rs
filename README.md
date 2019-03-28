@@ -48,6 +48,11 @@ Datasheet:
 
 This driver is compatible with the devices TCS34725 and TCS34727.
 
+## Support
+
+For questions, issues, feature requests, and other changes, please file an
+[issue in the github project](https://github.com/eldruin/tcs3472-rs/issues).
+
 ## License
 
 Licensed under either of
