@@ -154,113 +154,12 @@
 
 use embedded_hal::blocking::i2c;
 
-/// All possible errors in this crate
-#[derive(Debug)]
-pub enum Error<E> {
-    /// I²C bus error
-    I2C(E),
-    /// Invalid input data provided.
-    InvalidInputData,
-}
-
-/// RGB converter gain
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub enum RgbCGain {
-    /// 1x gain
-    _1x,
-    /// 4x gain
-    _4x,
-    /// 16x gain
-    _16x,
-    /// 60x gain
-    _60x,
-}
-
-/// RGB converter interrupt persistence
-///
-/// This controls the RGB converter interrupt generation rate.
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub enum RgbCInterruptPersistence {
-    /// Every RGBC cycle generates an interrupt.
-    Every,
-    /// 1 clear channel value out of range.
-    _1,
-    /// 2 clear channel consecutive values out of range.
-    _2,
-    /// 3 clear channel consecutive values out of range.
-    _3,
-    /// 5 clear channel consecutive values out of range.
-    _5,
-    /// 10 clear channel consecutive values out of range.
-    _10,
-    /// 15 clear channel consecutive values out of range.
-    _15,
-    /// 20 clear channel consecutive values out of range.
-    _20,
-    /// 25 clear channel consecutive values out of range.
-    _25,
-    /// 30 clear channel consecutive values out of range.
-    _30,
-    /// 35 clear channel consecutive values out of range.
-    _35,
-    /// 40 clear channel consecutive values out of range.
-    _40,
-    /// 45 clear channel consecutive values out of range.
-    _45,
-    /// 50 clear channel consecutive values out of range.
-    _50,
-    /// 55 clear channel consecutive values out of range.
-    _55,
-    /// 60 clear channel consecutive values out of range.
-    _60,
-}
-
-/// Result of measurement of all channels
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub struct AllChannelMeasurement {
-    /// Red channel measurement.
-    pub red: u16,
-    /// Green channel measurement.
-    pub green: u16,
-    /// Blue channel measurement.
-    pub blue: u16,
-    /// Clear (unfiltered) channel measurement.
-    pub clear: u16,
-}
-
-const DEVICE_ADDRESS: u8 = 0x29;
-
-struct Register;
-
-impl Register {
-    const ENABLE: u8 = 0x00;
-    const ATIME: u8 = 0x01;
-    const WTIME: u8 = 0x03;
-    const AILTL: u8 = 0x04;
-    const AIHTL: u8 = 0x06;
-    const APERS: u8 = 0x0C;
-    const CONFIG: u8 = 0x0D;
-    const CONTROL: u8 = 0x0F;
-    const ID: u8 = 0x12;
-    const STATUS: u8 = 0x13;
-    const CDATA: u8 = 0x14;
-    const RDATA: u8 = 0x16;
-    const GDATA: u8 = 0x18;
-    const BDATA: u8 = 0x1A;
-}
-
-struct BitFlags;
-
-impl BitFlags {
-    const CMD: u8 = 0b1000_0000;
-    const CMD_AUTO_INC: u8 = 0b0010_0000;
-    const POWER_ON: u8 = 0b0000_0001; // PON
-    const RGBC_EN: u8 = 0b0000_0010; // AEN
-    const WAIT_EN: u8 = 0b0000_1000; // WEN
-    const RGBC_INT_EN: u8 = 0b0001_0000; // AIEN
-    const RGBC_VALID: u8 = 0b0000_0001; // AVALID
-    const WLONG: u8 = 0b0000_0010;
-}
+mod configuration;
+mod interface;
+use crate::interface::{BitFlags, Register, DEVICE_ADDRESS};
+mod reading;
+mod types;
+pub use crate::types::{AllChannelMeasurement, Error, RgbCGain, RgbCInterruptPersistence};
 
 /// TCS3472 device driver.
 #[derive(Debug)]
@@ -270,9 +169,6 @@ pub struct Tcs3472<I2C> {
     /// Enable register status
     enable: u8,
 }
-
-mod configuration;
-mod reading;
 
 impl<I2C, E> Tcs3472<I2C>
 where
