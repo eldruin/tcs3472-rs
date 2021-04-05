@@ -1,8 +1,7 @@
-extern crate embedded_hal as hal;
-use super::{
+use crate::{
     BitFlags, Error, Register, RgbCGain, RgbCInterruptPersistence, Tcs3472, DEVICE_ADDRESS,
 };
-use hal::blocking::i2c;
+use embedded_hal::blocking::i2c;
 
 impl<I2C, E> Tcs3472<I2C>
 where
@@ -137,7 +136,7 @@ where
         &mut self,
         persistence: RgbCInterruptPersistence,
     ) -> Result<(), Error<E>> {
-        use RgbCInterruptPersistence as IP;
+        use crate::RgbCInterruptPersistence as IP;
         match persistence {
             IP::Every => self.write_register(Register::APERS, 0),
             IP::_1 => self.write_register(Register::APERS, 1),

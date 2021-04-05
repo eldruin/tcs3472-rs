@@ -1,8 +1,5 @@
-extern crate embedded_hal_mock;
-extern crate tcs3472;
-
 mod common;
-use common::{destroy, new, BitFlags, Register, DEV_ADDR};
+use crate::common::{destroy, new, BitFlags, Register, DEV_ADDR};
 use embedded_hal_mock::i2c::Transaction as I2cTrans;
 use tcs3472::{Error, RgbCGain, RgbCInterruptPersistence};
 

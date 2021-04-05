@@ -1,6 +1,3 @@
-extern crate linux_embedded_hal;
-extern crate tcs3472;
-
 use linux_embedded_hal::I2cdev;
 use tcs3472::Tcs3472;
 

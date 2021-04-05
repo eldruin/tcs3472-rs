@@ -55,13 +55,9 @@
 //! the device:
 //!
 //! ```no_run
-//! extern crate linux_embedded_hal as hal;
-//! extern crate tcs3472;
-//!
-//! use hal::I2cdev;
+//! use linux_embedded_hal::I2cdev;
 //! use tcs3472::Tcs3472;
 //!
-//! # fn main() {
 //! let dev = I2cdev::new("/dev/i2c-1").unwrap();
 //! let mut sensor = Tcs3472::new(dev);
 //! sensor.enable().unwrap();
@@ -77,19 +73,14 @@
 //!
 //! println!("Measurements: clear = {}, red = {}, green = {}, blue = {}",
 //!          clear, red, green, blue);
-//! # }
 //! ```
 //!
 //! ### Read all the channels at once
 //!
 //! ```no_run
-//! extern crate linux_embedded_hal as hal;
-//! extern crate tcs3472;
-//!
-//! use hal::I2cdev;
+//! use linux_embedded_hal::I2cdev;
 //! use tcs3472::Tcs3472;
 //!
-//! # fn main() {
 //! let dev = I2cdev::new("/dev/i2c-1").unwrap();
 //! let mut sensor = Tcs3472::new(dev);
 //! sensor.enable().unwrap();
@@ -103,38 +94,28 @@
 //! println!("Measurements: clear = {}, red = {}, green = {}, blue = {}",
 //!          measurement.clear, measurement.red, measurement.green,
 //!          measurement.blue);
-//! # }
 //! ```
 //!
 //! ### Change the RGB converter gain and integration cycles
 //!
 //! ```no_run
-//! extern crate linux_embedded_hal as hal;
-//! extern crate tcs3472;
+//! use linux_embedded_hal::I2cdev;
+//! use tcs3472::{RgbCGain, Tcs3472};
 //!
-//! use hal::I2cdev;
-//! use tcs3472::{ Tcs3472, RgbCGain };
-//!
-//! # fn main() {
 //! let dev = I2cdev::new("/dev/i2c-1").unwrap();
 //! let mut sensor = Tcs3472::new(dev);
 //! sensor.enable().unwrap();
 //! sensor.enable_rgbc().unwrap();
 //! sensor.set_rgbc_gain(RgbCGain::_16x).unwrap();
 //! sensor.set_integration_cycles(32).unwrap();
-//! # }
 //! ```
 //!
 //! ### Enable wait function and set wait time to 1.008s
 //!
 //! ```no_run
-//! extern crate linux_embedded_hal as hal;
-//! extern crate tcs3472;
-//!
-//! use hal::I2cdev;
+//! use linux_embedded_hal::I2cdev;
 //! use tcs3472::Tcs3472;
 //!
-//! # fn main() {
 //! let dev = I2cdev::new("/dev/i2c-1").unwrap();
 //! let mut sensor = Tcs3472::new(dev);
 //! sensor.enable().unwrap();
@@ -143,19 +124,14 @@
 //! sensor.set_wait_cycles(35).unwrap();
 //! sensor.enable_wait_long().unwrap(); // 12x mutiplicator
 //! sensor.enable_wait().unwrap(); // actually enable wait timer
-//! # }
 //! ```
 //!
 //! ### Enable and configure RGB converter interrupt generation
 //!
 //! ```no_run
-//! extern crate linux_embedded_hal as hal;
-//! extern crate tcs3472;
+//! use linux_embedded_hal::I2cdev;
+//! use tcs3472::{RgbCInterruptPersistence, Tcs3472};
 //!
-//! use hal::I2cdev;
-//! use tcs3472::{ Tcs3472, RgbCInterruptPersistence };
-//!
-//! # fn main() {
 //! let dev = I2cdev::new("/dev/i2c-1").unwrap();
 //! let mut sensor = Tcs3472::new(dev);
 //! sensor.enable().unwrap();
@@ -164,15 +140,12 @@
 //! sensor.set_rgbc_interrupt_high_threshold(61440).unwrap();
 //! sensor.set_rgbc_interrupt_persistence(RgbCInterruptPersistence::_5).unwrap();
 //! sensor.enable_rgbc_interrupts().unwrap();
-//! # }
 //! ```
 
-#![deny(unsafe_code)]
-#![deny(missing_docs)]
+#![deny(unsafe_code, missing_docs)]
 #![no_std]
 
-extern crate embedded_hal as hal;
-use hal::blocking::i2c;
+use embedded_hal::blocking::i2c;
 
 /// All possible errors in this crate
 #[derive(Debug)]
