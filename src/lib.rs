@@ -263,7 +263,7 @@ impl BitFlags {
 }
 
 /// TCS3472 device driver.
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct Tcs3472<I2C> {
     /// The concrete I²C device implementation.
     i2c: I2C,
