@@ -49,6 +49,13 @@
 //!
 //! ## Usage examples (see also examples folder)
 //!
+//! To use this driver, import this crate and an `embedded_hal` implementation,
+//! then create an instance of the driver.
+//!
+//! Please find additional examples using hardware in this repository: [driver-examples]
+//!
+//! [driver-examples]: https://github.com/eldruin/driver-examples
+//!
 //! ### Enable and read the color measurement
 //!
 //! Import this crate and an `embedded_hal` implementation, then instantiate
