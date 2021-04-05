@@ -7,7 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
 - Reading the measurement of all channels at once.
+- Make types copyable, clonable, comparable and debuggable where possible.
+
+### Changed
+- Removed `Default` derive for sensor struct.
 
 ## [0.1.1] - 2018-10-21
 

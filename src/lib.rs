@@ -184,7 +184,7 @@ pub enum Error<E> {
 }
 
 /// RGB converter gain
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum RgbCGain {
     /// 1x gain
     _1x,
@@ -199,7 +199,7 @@ pub enum RgbCGain {
 /// RGB converter interrupt persistence
 ///
 /// This controls the RGB converter interrupt generation rate.
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum RgbCInterruptPersistence {
     /// Every RGBC cycle generates an interrupt.
     Every,
@@ -236,6 +236,7 @@ pub enum RgbCInterruptPersistence {
 }
 
 /// Result of measurement of all channels
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub struct AllChannelMeasurement {
     /// Red channel measurement.
     pub red: u16,
