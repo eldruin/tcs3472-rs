@@ -9,6 +9,7 @@ where
     /// Check whether the RGB converter status is valid.
     ///
     /// Indicates that the RGBC channels have completed an integration cycle.
+    #[allow(clippy::wrong_self_convention)]
     pub fn is_rgbc_status_valid(&mut self) -> Result<bool, Error<E>> {
         let status = self.read_register(Register::STATUS)?;
         Ok((status & BitFlags::RGBC_VALID) != 0)
@@ -37,7 +38,7 @@ where
     fn read_channel(&mut self, first_register: u8) -> Result<u16, Error<E>> {
         let mut cdata = [0; 2];
         self.read_registers(first_register, &mut cdata)?;
-        Ok((cdata[1] as u16) << 8 | cdata[0] as u16)
+        Ok((u16::from(cdata[1])) << 8 | u16::from(cdata[0]))
     }
 
     /// Read the measurement data of all channels at once.
@@ -45,10 +46,10 @@ where
         let mut data = [0; 8];
         self.read_registers(Register::CDATA, &mut data)?;
         Ok(AllChannelMeasurement {
-            clear: (data[1] as u16) << 8 | data[0] as u16,
-            red: (data[3] as u16) << 8 | data[2] as u16,
-            green: (data[5] as u16) << 8 | data[4] as u16,
-            blue: (data[7] as u16) << 8 | data[6] as u16,
+            clear: u16::from(data[1]) << 8 | u16::from(data[0]),
+            red: u16::from(data[3]) << 8 | u16::from(data[2]),
+            green: u16::from(data[5]) << 8 | u16::from(data[4]),
+            blue: u16::from(data[7]) << 8 | u16::from(data[6]),
         })
     }
 
