@@ -9,14 +9,9 @@ fn main() {
     while !sensor.is_rgbc_status_valid().unwrap() {
         // wait for measurement to be available
     }
-
-    let clear = sensor.read_clear_channel().unwrap();
-    let red = sensor.read_red_channel().unwrap();
-    let green = sensor.read_green_channel().unwrap();
-    let blue = sensor.read_blue_channel().unwrap();
-
+    let m = sensor.read_all_channels().unwrap();
     println!(
         "Measurements: clear = {}, red = {}, green = {}, blue = {}",
-        clear, red, green, blue
+        m.clear, m.red, m.green, m.blue
     );
 }
