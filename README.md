@@ -53,6 +53,11 @@ Datasheet:
 
 This driver is compatible with the devices TCS34725 and TCS34727.
 
+## Minimum Supported Rust Version (MSRV)
+
+This crate is guaranteed to compile on stable Rust 1.31.0 and up. It *might*
+compile with older versions but that may change in any new patch release.
+
 ## Support
 
 For questions, issues, feature requests, and other changes, please file an
