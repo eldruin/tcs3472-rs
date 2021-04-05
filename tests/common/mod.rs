@@ -1,8 +1,9 @@
-extern crate embedded_hal_mock as hal;
+extern crate embedded_hal_mock;
 extern crate tcs3472;
+use embedded_hal_mock::i2c::{Mock as I2cMock, Transaction as I2cTrans};
 use tcs3472::Tcs3472;
 
-const DEVICE_ADDRESS: u8 = 0x29;
+pub const DEV_ADDR: u8 = 0x29;
 
 pub struct Register;
 
@@ -38,14 +39,10 @@ impl BitFlags {
     pub const WLONG: u8 = 0b0000_0010;
 }
 
-pub fn setup<'a>(data: &'a [u8]) -> Tcs3472<hal::I2cMock<'a>> {
-    let mut dev = hal::I2cMock::new();
-    dev.set_read_data(&data);
-    Tcs3472::new(dev)
+pub fn new(transactions: &[I2cTrans]) -> Tcs3472<I2cMock> {
+    Tcs3472::new(I2cMock::new(transactions))
 }
 
-pub fn check_sent_data(sensor: Tcs3472<hal::I2cMock>, data: &[u8]) {
-    let dev = sensor.destroy();
-    assert_eq!(dev.get_last_address(), Some(DEVICE_ADDRESS));
-    assert_eq!(dev.get_write_data(), &data[..]);
+pub fn destroy(sensor: Tcs3472<I2cMock>) {
+    sensor.destroy().done();
 }

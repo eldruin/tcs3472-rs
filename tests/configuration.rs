@@ -1,23 +1,35 @@
-extern crate embedded_hal_mock as hal;
+extern crate embedded_hal_mock;
 extern crate tcs3472;
 
 mod common;
-use common::{check_sent_data, setup, BitFlags, Register};
+use common::{destroy, new, BitFlags, Register, DEV_ADDR};
+use embedded_hal_mock::i2c::Transaction as I2cTrans;
 use tcs3472::{Error, RgbCGain, RgbCInterruptPersistence};
+
+#[test]
+fn can_create_and_destroy() {
+    let sensor = new(&[]);
+    destroy(sensor);
+}
 
 macro_rules! enable_disable_test {
     ($name:ident, $first_method:ident, $second_method:ident, $register:ident, $expected:expr) => {
         #[test]
         fn $name() {
-            let mut dev = setup(&[0]);
+            let mut dev = new(&[
+                I2cTrans::write(DEV_ADDR, vec![BitFlags::CMD | Register::$register, 0]),
+                I2cTrans::write(
+                    DEV_ADDR,
+                    vec![BitFlags::CMD | Register::$register, $expected],
+                ),
+            ]);
             dev.$first_method().unwrap();
             dev.$second_method().unwrap();
-            check_sent_data(dev, &[BitFlags::CMD | Register::$register, $expected]);
+            destroy(dev);
         }
     };
 }
 enable_disable_test!(can_enable, disable, enable, ENABLE, BitFlags::POWER_ON);
-enable_disable_test!(can_disable, enable, disable, ENABLE, 0);
 
 enable_disable_test!(
     can_enable_rgbc,
@@ -26,7 +38,6 @@ enable_disable_test!(
     ENABLE,
     BitFlags::RGBC_EN
 );
-enable_disable_test!(can_disable_rgbc, enable_rgbc, disable_rgbc, ENABLE, 0);
 
 enable_disable_test!(
     can_enable_rgbc_ints,
@@ -34,13 +45,6 @@ enable_disable_test!(
     enable_rgbc_interrupts,
     ENABLE,
     BitFlags::RGBC_INT_EN
-);
-enable_disable_test!(
-    can_disable_rgbc_ints,
-    enable_rgbc_interrupts,
-    disable_rgbc_interrupts,
-    ENABLE,
-    0
 );
 
 enable_disable_test!(
@@ -50,7 +54,6 @@ enable_disable_test!(
     ENABLE,
     BitFlags::WAIT_EN
 );
-enable_disable_test!(can_disable_wait, enable_wait, disable_wait, ENABLE, 0);
 
 enable_disable_test!(
     can_enable_wait_long,
@@ -59,21 +62,17 @@ enable_disable_test!(
     CONFIG,
     BitFlags::WLONG
 );
-enable_disable_test!(
-    can_disable_wait_long,
-    enable_wait_long,
-    disable_wait_long,
-    CONFIG,
-    0
-);
 
 macro_rules! set_rgbc_gain_test {
     ($name:ident, $variant:ident, $expected:expr) => {
         #[test]
         fn $name() {
-            let mut dev = setup(&[0]);
+            let mut dev = new(&[I2cTrans::write(
+                DEV_ADDR,
+                vec![BitFlags::CMD | Register::CONTROL, $expected],
+            )]);
             dev.set_rgbc_gain(RgbCGain::$variant).unwrap();
-            check_sent_data(dev, &[BitFlags::CMD | Register::CONTROL, $expected]);
+            destroy(dev);
         }
     };
 }
@@ -87,7 +86,7 @@ macro_rules! set_invalid_param_test {
     ($name:ident, $method:ident, $value:expr) => {
         #[test]
         fn $name() {
-            let mut dev = setup(&[0]);
+            let mut dev = new(&[]);
             match dev.$method($value) {
                 Err(Error::InvalidInputData) => (),
                 _ => panic!(),
@@ -103,9 +102,12 @@ macro_rules! set_single_param_test {
     ($name:ident, $method:ident, $value:expr, $register:ident, $expected:expr) => {
         #[test]
         fn $name() {
-            let mut dev = setup(&[0]);
+            let mut dev = new(&[I2cTrans::write(
+                DEV_ADDR,
+                vec![BitFlags::CMD | Register::$register, $expected],
+            )]);
             dev.$method($value).unwrap();
-            check_sent_data(dev, &[BitFlags::CMD | Register::$register, $expected]);
+            destroy(dev);
         }
     };
 }
@@ -122,16 +124,16 @@ macro_rules! set_param_test {
     ($name:ident, $method:ident, $value:expr, $register:ident, $expected0:expr, $expected1:expr) => {
         #[test]
         fn $name() {
-            let mut dev = setup(&[0]);
-            dev.$method($value).unwrap();
-            check_sent_data(
-                dev,
-                &[
+            let mut dev = new(&[I2cTrans::write(
+                DEV_ADDR,
+                vec![
                     BitFlags::CMD | BitFlags::CMD_AUTO_INC | Register::$register,
                     $expected0,
                     $expected1,
                 ],
-            );
+            )]);
+            dev.$method($value).unwrap();
+            destroy(dev);
         }
     };
 }
