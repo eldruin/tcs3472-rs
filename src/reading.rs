@@ -1,12 +1,10 @@
-
 extern crate embedded_hal as hal;
+use super::{AllChannelMeasurement, BitFlags, Error, Register, Tcs3472, DEVICE_ADDRESS};
 use hal::blocking::i2c;
-use super::{ Tcs3472, DEVICE_ADDRESS, Register, BitFlags,
-             AllChannelMeasurement, Error };
 
 impl<I2C, E> Tcs3472<I2C>
 where
-    I2C: i2c::WriteRead<Error = E>
+    I2C: i2c::WriteRead<Error = E>,
 {
     /// Check whether the RGB converter status is valid.
     ///
@@ -48,10 +46,10 @@ where
         self.read_registers(Register::CDATA, &mut data)?;
         Ok(AllChannelMeasurement {
             clear: (data[1] as u16) << 8 | data[0] as u16,
-            red:   (data[3] as u16) << 8 | data[2] as u16,
+            red: (data[3] as u16) << 8 | data[2] as u16,
             green: (data[5] as u16) << 8 | data[4] as u16,
-            blue:  (data[7] as u16) << 8 | data[6] as u16,
-           })
+            blue: (data[7] as u16) << 8 | data[6] as u16,
+        })
     }
 
     /// Read the device ID.
@@ -65,7 +63,7 @@ where
 
     fn read_register(&mut self, register: u8) -> Result<u8, Error<E>> {
         let command = BitFlags::CMD | register;
-        let mut data = [0]; 
+        let mut data = [0];
         self.i2c
             .write_read(DEVICE_ADDRESS, &[command], &mut data)
             .map_err(Error::I2C)?;

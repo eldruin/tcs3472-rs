@@ -31,7 +31,7 @@
 //! accurately. The high sensitivity, wide dynamic range, and IR blocking
 //! filter make the TCS3472 an ideal color sensor solution for use under
 //! varying lighting conditions and through attenuating materials.
-//! 
+//!
 //! The TCS3472 color sensor has a wide range of applications including RGB LED
 //! backlight control, solid-state lighting, health/fitness products,
 //! industrial process controls and medical diagnostic equipment. In addition,
@@ -180,7 +180,7 @@ pub enum Error<E> {
     /// I²C bus error
     I2C(E),
     /// Invalid input data provided.
-    InvalidInputData
+    InvalidInputData,
 }
 
 /// RGB converter gain
@@ -193,7 +193,7 @@ pub enum RgbCGain {
     /// 16x gain
     _16x,
     /// 60x gain
-    _60x
+    _60x,
 }
 
 /// RGB converter interrupt persistence
@@ -244,42 +244,41 @@ pub struct AllChannelMeasurement {
     /// Blue channel measurement.
     pub blue: u16,
     /// Clear (unfiltered) channel measurement.
-    pub clear: u16
+    pub clear: u16,
 }
-
 
 const DEVICE_ADDRESS: u8 = 0x29;
 
 struct Register;
 
 impl Register {
-    const ENABLE   : u8 = 0x00;
-    const ATIME    : u8 = 0x01;
-    const WTIME    : u8 = 0x03;
-    const AILTL    : u8 = 0x04;
-    const AIHTL    : u8 = 0x06;
-    const APERS    : u8 = 0x0C;
-    const CONFIG   : u8 = 0x0D;
-    const CONTROL  : u8 = 0x0F;
-    const ID       : u8 = 0x12;
-    const STATUS   : u8 = 0x13;
-    const CDATA    : u8 = 0x14;
-    const RDATA    : u8 = 0x16;
-    const GDATA    : u8 = 0x18;
-    const BDATA    : u8 = 0x1A;
+    const ENABLE: u8 = 0x00;
+    const ATIME: u8 = 0x01;
+    const WTIME: u8 = 0x03;
+    const AILTL: u8 = 0x04;
+    const AIHTL: u8 = 0x06;
+    const APERS: u8 = 0x0C;
+    const CONFIG: u8 = 0x0D;
+    const CONTROL: u8 = 0x0F;
+    const ID: u8 = 0x12;
+    const STATUS: u8 = 0x13;
+    const CDATA: u8 = 0x14;
+    const RDATA: u8 = 0x16;
+    const GDATA: u8 = 0x18;
+    const BDATA: u8 = 0x1A;
 }
 
 struct BitFlags;
 
 impl BitFlags {
-    const CMD          : u8 = 0b1000_0000;
-    const CMD_AUTO_INC : u8 = 0b0010_0000;
-    const POWER_ON     : u8 = 0b0000_0001; // PON
-    const RGBC_EN      : u8 = 0b0000_0010; // AEN
-    const WAIT_EN      : u8 = 0b0000_1000; // WEN
-    const RGBC_INT_EN  : u8 = 0b0001_0000; // AIEN
-    const RGBC_VALID   : u8 = 0b0000_0001; // AVALID
-    const WLONG        : u8 = 0b0000_0010;
+    const CMD: u8 = 0b1000_0000;
+    const CMD_AUTO_INC: u8 = 0b0010_0000;
+    const POWER_ON: u8 = 0b0000_0001; // PON
+    const RGBC_EN: u8 = 0b0000_0010; // AEN
+    const WAIT_EN: u8 = 0b0000_1000; // WEN
+    const RGBC_INT_EN: u8 = 0b0001_0000; // AIEN
+    const RGBC_VALID: u8 = 0b0000_0001; // AVALID
+    const WLONG: u8 = 0b0000_0010;
 }
 
 /// TCS3472 device driver.
@@ -288,7 +287,7 @@ pub struct Tcs3472<I2C> {
     /// The concrete I²C device implementation.
     i2c: I2C,
     /// Enable register status
-    enable: u8
+    enable: u8,
 }
 
 mod configuration;
@@ -296,14 +295,11 @@ mod reading;
 
 impl<I2C, E> Tcs3472<I2C>
 where
-    I2C: i2c::Write<Error = E>
+    I2C: i2c::Write<Error = E>,
 {
     /// Create new instance of the TCS3472 device.
     pub fn new(i2c: I2C) -> Self {
-        Tcs3472 {
-            i2c,
-            enable: 0
-        }
+        Tcs3472 { i2c, enable: 0 }
     }
 
     /// Destroy driver instance, return I²C bus instance.
