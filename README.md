@@ -60,7 +60,7 @@ For questions, issues, feature requests, and other changes, please file an
 
 ## License
 
-Licensed under either of
+Licensed under either of:
 
  * Apache License, Version 2.0 ([LICENSE-APACHE](LICENSE-APACHE) or
    http://www.apache.org/licenses/LICENSE-2.0)
