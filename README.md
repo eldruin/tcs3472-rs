@@ -4,6 +4,7 @@
 [![Docs](https://docs.rs/tcs3472/badge.svg)](https://docs.rs/tcs3472)
 [![Build Status](https://github.com/eldruin/tcs3472-rs/workflows/Build/badge.svg)](https://github.com/eldruin/tcs3472-rs/actions?query=workflow%3ABuild)
 [![Coverage Status](https://coveralls.io/repos/github/eldruin/tcs3472-rs/badge.svg?branch=master)](https://coveralls.io/github/eldruin/tcs3472-rs?branch=master)
+![Minimum Supported Rust Version](https://img.shields.io/badge/rustc-1.65+-blue.svg)
 
 This is a platform agnostic Rust driver for the TCS3472 RGB color light to
 digital converter with IR filter, based on the [`embedded-hal`] traits.
@@ -84,7 +85,7 @@ fn main() {
 
 ## Minimum Supported Rust Version (MSRV)
 
-This crate is guaranteed to compile on stable Rust 1.31.0 and up. It *might*
+This crate is guaranteed to compile on stable Rust 1.65.0 and up. It *might*
 compile with older versions but that may change in any new patch release.
 
 ## Support
@@ -108,4 +109,3 @@ at your option.
 Unless you explicitly state otherwise, any contribution intentionally submitted
 for inclusion in the work by you, as defined in the Apache-2.0 license, shall
 be dual licensed as above, without any additional terms or conditions.
-
