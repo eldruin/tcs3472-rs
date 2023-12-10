@@ -78,7 +78,7 @@ where
             return Err(Error::InvalidInputData);
         }
         // the value is stored as a two's complement
-        self.write_register(Register::WTIME, (256 - cycles as u16) as u8)
+        self.write_register(Register::WTIME, (256_u16 - cycles) as u8)
     }
 
     /// Enable the *wait long* setting.
@@ -116,7 +116,7 @@ where
             return Err(Error::InvalidInputData);
         }
         // the value is stored as a two's complement
-        self.write_register(Register::ATIME, (256 - cycles as u16) as u8)
+        self.write_register(Register::ATIME, (256_u16 - cycles) as u8)
     }
 
     /// Set the RGB converter interrupt clear channel low threshold.

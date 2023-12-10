@@ -70,10 +70,10 @@ where
         Ok(data[0])
     }
 
-    fn read_registers(&mut self, first_register: u8, mut data: &mut [u8]) -> Result<(), Error<E>> {
+    fn read_registers(&mut self, first_register: u8, data: &mut [u8]) -> Result<(), Error<E>> {
         let command = BitFlags::CMD | BitFlags::CMD_AUTO_INC | first_register;
         self.i2c
-            .write_read(DEVICE_ADDRESS, &[command], &mut data)
+            .write_read(DEVICE_ADDRESS, &[command], data)
             .map_err(Error::I2C)
     }
 }
