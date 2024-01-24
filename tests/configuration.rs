@@ -88,6 +88,7 @@ macro_rules! set_invalid_param_test {
                 Err(Error::InvalidInputData) => (),
                 _ => panic!(),
             }
+            destroy(dev);
         }
     };
 }
