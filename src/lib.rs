@@ -152,8 +152,6 @@
 #![deny(unsafe_code, missing_docs)]
 #![no_std]
 
-use embedded_hal::blocking::i2c;
-
 mod configuration;
 mod interface;
 use crate::interface::{BitFlags, Register, DEVICE_ADDRESS};
@@ -170,10 +168,7 @@ pub struct Tcs3472<I2C> {
     enable: u8,
 }
 
-impl<I2C, E> Tcs3472<I2C>
-where
-    I2C: i2c::Write<Error = E>,
-{
+impl<I2C> Tcs3472<I2C> {
     /// Create new instance of the TCS3472 device.
     pub fn new(i2c: I2C) -> Self {
         Tcs3472 { i2c, enable: 0 }
