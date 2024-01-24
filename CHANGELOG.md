@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-...
+### Added
+- Added `embedded-hal-async` support.
 
 ## [0.2.0] - 2021-04-05
 
