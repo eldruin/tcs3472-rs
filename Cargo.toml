@@ -20,12 +20,18 @@ include = [
     "/LICENSE-APACHE",
 ]
 
+[features]
+default = []
+async = ["dep:embedded-hal-async"]
+
 [dependencies]
-embedded-hal = "0.2.7"
+embedded-hal = "1.0"
+embedded-hal-async = { version = "1.0", optional = true }
+maybe-async-cfg = "0.2.3"
 
 [dev-dependencies]
-linux-embedded-hal = "0.3"
-embedded-hal-mock = "0.9"
+linux-embedded-hal = "0.4"
+embedded-hal-mock = { version = "0.10", default-features = false, features = ["eh1"] }
 
 [profile.release]
 lto = true
