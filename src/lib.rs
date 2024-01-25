@@ -153,7 +153,7 @@
 //!
 //! Enable the `async` feature in your `Cargo.toml`:
 //! ```toml
-//! tcs3472 = { version = "", features = ["async"] };
+//! tcs3472 = { version = "0.3.0", features = ["async"] }
 //! ```
 //!
 //! Using async driver with [Embassy](https://embassy.dev/) framework:
