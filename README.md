@@ -83,7 +83,7 @@ fn main() {
 }
 ```
 
-This driver also supports `embedded-hal-async` traits if `async` feature is enabled in Cargo.toml:
+This driver also supports the `embedded-hal-async` traits if the `async` feature is enabled in the `Cargo.toml` file:
 
 ```toml
 tcs3472 = { version = "0.3.0", features = ["async"] };
