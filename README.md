@@ -86,7 +86,7 @@ fn main() {
 This driver also supports the `embedded-hal-async` traits if the `async` feature is enabled in the `Cargo.toml` file:
 
 ```toml
-tcs3472 = { version = "0.3.0", features = ["async"] };
+tcs3472 = { version = "0.3.0", features = ["async"] }
 ```
 
 Example how it looks like when using [Embassy](https://embassy.dev/) framework:
