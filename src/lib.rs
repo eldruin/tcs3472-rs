@@ -148,6 +148,35 @@
 //! sensor.set_rgbc_interrupt_persistence(RgbCInterruptPersistence::_5).unwrap();
 //! sensor.enable_rgbc_interrupts().unwrap();
 //! ```
+//!
+//! ### Using async driver
+//!
+//! Enable `async` feature in Cargo.toml:
+//! ```toml
+//! tcs3472 = { version = "", features = ["async"] };
+//! ```
+//!
+//! Using async driver with [Embassy](https://embassy.dev/) framework:
+//! ```no_run
+//! #[embassy_executor::main]
+//! async fn main(_spawner: Spawner) {
+//!     let p = embassy_stm32::init(Default::default());
+//!     let mut i2c = I2c::new(..);
+//!     let mut sensor = Tcs3472::new(i2c);
+//!     sensor.enable().await.unwrap();
+//!     sensor.enable_rgbc().await.unwrap();
+//!     while !sensor.is_rgbc_status_valid().await.unwrap() {
+//!         // wait for measurement to be available
+//!     };
+//!
+//!     let measurement = sensor.read_all_channels().await.unwrap();
+//!
+//!     defmt::info!("Measurements: clear = {}, red = {}, green = {}, blue = {}",
+//!          measurement.clear, measurement.red, measurement.green,
+//!          measurement.blue);
+//! }
+//! ```
+
 
 #![deny(unsafe_code, missing_docs)]
 #![no_std]
