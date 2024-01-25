@@ -151,7 +151,7 @@
 //!
 //! ### Using async driver
 //!
-//! Enable `async` feature in Cargo.toml:
+//! Enable the `async` feature in your `Cargo.toml`:
 //! ```toml
 //! tcs3472 = { version = "", features = ["async"] };
 //! ```
