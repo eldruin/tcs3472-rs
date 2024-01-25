@@ -148,11 +148,37 @@
 //! sensor.set_rgbc_interrupt_persistence(RgbCInterruptPersistence::_5).unwrap();
 //! sensor.enable_rgbc_interrupts().unwrap();
 //! ```
+//!
+//! ### Using async driver
+//!
+//! Enable the `async` feature in your `Cargo.toml`:
+//! ```toml
+//! tcs3472 = { version = "0.3.0", features = ["async"] }
+//! ```
+//!
+//! Using async driver with [Embassy](https://embassy.dev/) framework:
+//! ```no_run
+//! #[embassy_executor::main]
+//! async fn main(_spawner: Spawner) {
+//!     let p = embassy_stm32::init(Default::default());
+//!     let mut i2c = I2c::new(..);
+//!     let mut sensor = Tcs3472::new(i2c);
+//!     sensor.enable().await.unwrap();
+//!     sensor.enable_rgbc().await.unwrap();
+//!     while !sensor.is_rgbc_status_valid().await.unwrap() {
+//!         // wait for measurement to be available
+//!     };
+//!
+//!     let measurement = sensor.read_all_channels().await.unwrap();
+//!
+//!     defmt::info!("Measurements: clear = {}, red = {}, green = {}, blue = {}",
+//!          measurement.clear, measurement.red, measurement.green,
+//!          measurement.blue);
+//! }
+//! ```
 
 #![deny(unsafe_code, missing_docs)]
 #![no_std]
-
-use embedded_hal::blocking::i2c;
 
 mod configuration;
 mod interface;
@@ -170,10 +196,7 @@ pub struct Tcs3472<I2C> {
     enable: u8,
 }
 
-impl<I2C, E> Tcs3472<I2C>
-where
-    I2C: i2c::Write<Error = E>,
-{
+impl<I2C> Tcs3472<I2C> {
     /// Create new instance of the TCS3472 device.
     pub fn new(i2c: I2C) -> Self {
         Tcs3472 { i2c, enable: 0 }
