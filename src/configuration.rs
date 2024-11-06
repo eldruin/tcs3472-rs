@@ -1,11 +1,11 @@
 use crate::{
     BitFlags, Error, Register, RgbCGain, RgbCInterruptPersistence, Tcs3472, DEVICE_ADDRESS,
 };
-use embedded_hal::blocking::i2c;
+use embedded_hal::i2c;
 
 impl<I2C, E> Tcs3472<I2C>
 where
-    I2C: i2c::Write<Error = E>,
+    I2C: i2c::I2c<Error = E>,
 {
     /// Enable the device (Power ON).
     ///
