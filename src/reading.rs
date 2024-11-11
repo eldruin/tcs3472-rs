@@ -1,9 +1,9 @@
 use crate::{AllChannelMeasurement, BitFlags, Error, Register, Tcs3472, DEVICE_ADDRESS};
-use embedded_hal::blocking::i2c;
+use embedded_hal::i2c;
 
 impl<I2C, E> Tcs3472<I2C>
 where
-    I2C: i2c::WriteRead<Error = E>,
+    I2C: i2c::I2c<Error = E>,
 {
     /// Check whether the RGB converter status is valid.
     ///

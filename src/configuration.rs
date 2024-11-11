@@ -1,63 +1,63 @@
 use crate::{
     BitFlags, Error, Register, RgbCGain, RgbCInterruptPersistence, Tcs3472, DEVICE_ADDRESS,
 };
-use embedded_hal::blocking::i2c;
+use embedded_hal::i2c;
 
-impl<I2C, E> Tcs3472<I2C>
+impl<I2C> Tcs3472<I2C>
 where
-    I2C: i2c::Write<Error = E>,
+    I2C: i2c::I2c,
 {
     /// Enable the device (Power ON).
     ///
     /// The device goes to idle state.
-    pub fn enable(&mut self) -> Result<(), Error<E>> {
+    pub fn enable(&mut self) -> Result<(), Error<I2C::Error>> {
         let enable = self.enable;
         self.write_enable(enable | BitFlags::POWER_ON)
     }
 
     /// Disable the device (sleep).
-    pub fn disable(&mut self) -> Result<(), Error<E>> {
+    pub fn disable(&mut self) -> Result<(), Error<I2C::Error>> {
         let enable = self.enable;
         self.write_enable(enable & !BitFlags::POWER_ON)
     }
 
     /// Enable the RGB converter.
-    pub fn enable_rgbc(&mut self) -> Result<(), Error<E>> {
+    pub fn enable_rgbc(&mut self) -> Result<(), Error<I2C::Error>> {
         let enable = self.enable;
         self.write_enable(enable | BitFlags::RGBC_EN)
     }
 
     /// Disable the RGB converter.
-    pub fn disable_rgbc(&mut self) -> Result<(), Error<E>> {
+    pub fn disable_rgbc(&mut self) -> Result<(), Error<I2C::Error>> {
         let enable = self.enable;
         self.write_enable(enable & !BitFlags::RGBC_EN)
     }
 
     /// Enable the RGB converter interrupt generation.
-    pub fn enable_rgbc_interrupts(&mut self) -> Result<(), Error<E>> {
+    pub fn enable_rgbc_interrupts(&mut self) -> Result<(), Error<I2C::Error>> {
         let enable = self.enable;
         self.write_enable(enable | BitFlags::RGBC_INT_EN)
     }
 
     /// Disable the RGB converter interrupt generation.
-    pub fn disable_rgbc_interrupts(&mut self) -> Result<(), Error<E>> {
+    pub fn disable_rgbc_interrupts(&mut self) -> Result<(), Error<I2C::Error>> {
         let enable = self.enable;
         self.write_enable(enable & !BitFlags::RGBC_INT_EN)
     }
 
     /// Enable the wait feature (wait timer).
-    pub fn enable_wait(&mut self) -> Result<(), Error<E>> {
+    pub fn enable_wait(&mut self) -> Result<(), Error<I2C::Error>> {
         let enable = self.enable;
         self.write_enable(enable | BitFlags::WAIT_EN)
     }
 
     /// Disable the wait feature (wait timer).
-    pub fn disable_wait(&mut self) -> Result<(), Error<E>> {
+    pub fn disable_wait(&mut self) -> Result<(), Error<I2C::Error>> {
         let enable = self.enable;
         self.write_enable(enable & !BitFlags::WAIT_EN)
     }
 
-    fn write_enable(&mut self, enable: u8) -> Result<(), Error<E>> {
+    fn write_enable(&mut self, enable: u8) -> Result<(), Error<I2C::Error>> {
         self.write_register(Register::ENABLE, enable)?;
         self.enable = enable;
         Ok(())
@@ -71,9 +71,10 @@ where
     /// - If *wait long* is enabled, then the wait time is increased by a
     ///   factor of 12 and therefore corresponds to aproximately:
     ///   `number_of_cycles * 0.029s`.
+    ///
     /// See [`enable_wait_long()`](#method.enable_wait_long) and
     ///  [`disable_wait_long()`](#method.disable_wait_long).
-    pub fn set_wait_cycles(&mut self, cycles: u16) -> Result<(), Error<E>> {
+    pub fn set_wait_cycles(&mut self, cycles: u16) -> Result<(), Error<I2C::Error>> {
         if cycles > 256 || cycles == 0 {
             return Err(Error::InvalidInputData);
         }
@@ -85,7 +86,7 @@ where
     ///
     /// The wait time configured with `set_wait_cycles()` is increased by a
     /// factor of 12. See [`set_wait_cycles()`](#method.set_wait_cycles).
-    pub fn enable_wait_long(&mut self) -> Result<(), Error<E>> {
+    pub fn enable_wait_long(&mut self) -> Result<(), Error<I2C::Error>> {
         self.write_register(Register::CONFIG, BitFlags::WLONG)
     }
 
@@ -93,12 +94,12 @@ where
     ///
     /// The wait time configured with `set_wait_cycles()` is used without
     /// multiplication factor. See [`set_wait_cycles()`](#method.set_wait_cycles).
-    pub fn disable_wait_long(&mut self) -> Result<(), Error<E>> {
+    pub fn disable_wait_long(&mut self) -> Result<(), Error<I2C::Error>> {
         self.write_register(Register::CONFIG, 0)
     }
 
     /// Set the RGB converter gain.
-    pub fn set_rgbc_gain(&mut self, gain: RgbCGain) -> Result<(), Error<E>> {
+    pub fn set_rgbc_gain(&mut self, gain: RgbCGain) -> Result<(), Error<I2C::Error>> {
         // Register field: AGAIN
         match gain {
             RgbCGain::_1x => self.write_register(Register::CONTROL, 0),
@@ -111,7 +112,7 @@ where
     /// Set the number of integration cycles (1-256).
     ///
     /// The actual integration time corresponds to: `number_of_cycles * 2.4ms`.
-    pub fn set_integration_cycles(&mut self, cycles: u16) -> Result<(), Error<E>> {
+    pub fn set_integration_cycles(&mut self, cycles: u16) -> Result<(), Error<I2C::Error>> {
         if cycles > 256 || cycles == 0 {
             return Err(Error::InvalidInputData);
         }
@@ -120,12 +121,18 @@ where
     }
 
     /// Set the RGB converter interrupt clear channel low threshold.
-    pub fn set_rgbc_interrupt_low_threshold(&mut self, threshold: u16) -> Result<(), Error<E>> {
+    pub fn set_rgbc_interrupt_low_threshold(
+        &mut self,
+        threshold: u16,
+    ) -> Result<(), Error<I2C::Error>> {
         self.write_registers(Register::AILTL, threshold as u8, (threshold >> 8) as u8)
     }
 
     /// Set the RGB converter interrupt clear channel high threshold.
-    pub fn set_rgbc_interrupt_high_threshold(&mut self, threshold: u16) -> Result<(), Error<E>> {
+    pub fn set_rgbc_interrupt_high_threshold(
+        &mut self,
+        threshold: u16,
+    ) -> Result<(), Error<I2C::Error>> {
         self.write_registers(Register::AIHTL, threshold as u8, (threshold >> 8) as u8)
     }
 
@@ -135,7 +142,7 @@ where
     pub fn set_rgbc_interrupt_persistence(
         &mut self,
         persistence: RgbCInterruptPersistence,
-    ) -> Result<(), Error<E>> {
+    ) -> Result<(), Error<I2C::Error>> {
         use crate::RgbCInterruptPersistence as IP;
         match persistence {
             IP::Every => self.write_register(Register::APERS, 0),
@@ -157,14 +164,19 @@ where
         }
     }
 
-    fn write_register(&mut self, register: u8, value: u8) -> Result<(), Error<E>> {
+    fn write_register(&mut self, register: u8, value: u8) -> Result<(), Error<I2C::Error>> {
         let command = BitFlags::CMD | register;
         self.i2c
             .write(DEVICE_ADDRESS, &[command, value])
             .map_err(Error::I2C)
     }
 
-    fn write_registers(&mut self, register: u8, value0: u8, value1: u8) -> Result<(), Error<E>> {
+    fn write_registers(
+        &mut self,
+        register: u8,
+        value0: u8,
+        value1: u8,
+    ) -> Result<(), Error<I2C::Error>> {
         let command = BitFlags::CMD | BitFlags::CMD_AUTO_INC | register;
         self.i2c
             .write(DEVICE_ADDRESS, &[command, value0, value1])
