@@ -71,6 +71,7 @@ where
     /// - If *wait long* is enabled, then the wait time is increased by a
     ///   factor of 12 and therefore corresponds to aproximately:
     ///   `number_of_cycles * 0.029s`.
+    ///
     /// See [`enable_wait_long()`](#method.enable_wait_long) and
     ///  [`disable_wait_long()`](#method.disable_wait_long).
     pub fn set_wait_cycles(&mut self, cycles: u16) -> Result<(), Error<I2C::Error>> {
@@ -120,12 +121,18 @@ where
     }
 
     /// Set the RGB converter interrupt clear channel low threshold.
-    pub fn set_rgbc_interrupt_low_threshold(&mut self, threshold: u16) -> Result<(), Error<I2C::Error>> {
+    pub fn set_rgbc_interrupt_low_threshold(
+        &mut self,
+        threshold: u16,
+    ) -> Result<(), Error<I2C::Error>> {
         self.write_registers(Register::AILTL, threshold as u8, (threshold >> 8) as u8)
     }
 
     /// Set the RGB converter interrupt clear channel high threshold.
-    pub fn set_rgbc_interrupt_high_threshold(&mut self, threshold: u16) -> Result<(), Error<I2C::Error>> {
+    pub fn set_rgbc_interrupt_high_threshold(
+        &mut self,
+        threshold: u16,
+    ) -> Result<(), Error<I2C::Error>> {
         self.write_registers(Register::AIHTL, threshold as u8, (threshold >> 8) as u8)
     }
 
@@ -164,7 +171,12 @@ where
             .map_err(Error::I2C)
     }
 
-    fn write_registers(&mut self, register: u8, value0: u8, value1: u8) -> Result<(), Error<I2C::Error>> {
+    fn write_registers(
+        &mut self,
+        register: u8,
+        value0: u8,
+        value1: u8,
+    ) -> Result<(), Error<I2C::Error>> {
         let command = BitFlags::CMD | BitFlags::CMD_AUTO_INC | register;
         self.i2c
             .write(DEVICE_ADDRESS, &[command, value0, value1])
