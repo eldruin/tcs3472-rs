@@ -12,12 +12,12 @@ homepage = "https://github.com/eldruin/tcs3472-rs"
 documentation = "https://docs.rs/tcs3472"
 edition = "2021"
 include = [
-    "/**/*.rs",
-    "/Cargo.toml",
-    "/README.md",
-    "/CHANGELOG.md",
-    "/LICENSE-MIT",
-    "/LICENSE-APACHE",
+  "/**/*.rs",
+  "/Cargo.toml",
+  "/README.md",
+  "/CHANGELOG.md",
+  "/LICENSE-MIT",
+  "/LICENSE-APACHE",
 ]
 
 [features]
@@ -31,7 +31,9 @@ maybe-async-cfg = "0.2.3"
 
 [dev-dependencies]
 linux-embedded-hal = "0.4"
-embedded-hal-mock = { version = "0.10", default-features = false, features = ["eh1"] }
+embedded-hal-mock = { version = "0.10", default-features = false, features = [
+  "eh1",
+] }
 
 [profile.release]
 lto = true

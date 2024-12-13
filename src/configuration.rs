@@ -82,6 +82,7 @@ where
     /// - If *wait long* is enabled, then the wait time is increased by a
     ///   factor of 12 and therefore corresponds to aproximately:
     ///   `number_of_cycles * 0.029s`.
+    ///
     /// See [`enable_wait_long()`](#method.enable_wait_long) and
     ///  [`disable_wait_long()`](#method.disable_wait_long).
     pub async fn set_wait_cycles(&mut self, cycles: u16) -> Result<(), Error<E>> {
@@ -156,7 +157,7 @@ where
     pub async fn set_rgbc_interrupt_persistence(
         &mut self,
         persistence: RgbCInterruptPersistence,
-    ) -> Result<(), Error<E>> {
+    ) -> Result<(), Error<I2C::Error>> {
         use crate::RgbCInterruptPersistence as IP;
         match persistence {
             IP::Every => self.write_register(Register::APERS, 0).await,

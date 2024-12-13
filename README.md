@@ -113,7 +113,7 @@ async fn main(_spawner: Spawner) {
 
 ## Minimum Supported Rust Version (MSRV)
 
-This crate is guaranteed to compile on stable Rust 1.65.0 and up. It *might*
+This crate is guaranteed to compile on stable Rust 1.81.0 and up. It *might*
 compile with older versions but that may change in any new patch release.
 
 ## Support
