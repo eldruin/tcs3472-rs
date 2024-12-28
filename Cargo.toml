@@ -34,6 +34,12 @@ linux-embedded-hal = "0.4"
 embedded-hal-mock = { version = "0.10", default-features = false, features = [
   "eh1",
 ] }
+embassy-executor = "0.6.3"
 
 [profile.release]
 lto = true
+
+[[example]]
+name = "embassy"
+path = "examples/embassy.rs"
+required-features = ["async"]
