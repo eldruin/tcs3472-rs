@@ -6,7 +6,7 @@
 [![Build Status](https://github.com/eldruin/tcs3472-rs/workflows/Build/badge.svg)](https://github.com/eldruin/tcs3472-rs/actions?query=workflow%3ABuild)
 [![Coverage Status](https://coveralls.io/repos/github/eldruin/tcs3472-rs/badge.svg?branch=master)](https://coveralls.io/github/eldruin/tcs3472-rs?branch=master)
 
-This is a platform agnostic Rust driver for the TCS3472 RGB color light to
+This is a platform-agnostic Rust driver for the TCS3472 RGB color light to
 digital converter with IR filter, based on the [`embedded-hal`] traits.
 
 [`embedded-hal`]: https://github.com/rust-embedded/embedded-hal
