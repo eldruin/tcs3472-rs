@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - Async support based on `embedded-hal-async` 1.0.
+- Derive `Eq`, `Hash` for simple types.
 
 ### Changed
 - Raise MSRV to 1.81.0.
