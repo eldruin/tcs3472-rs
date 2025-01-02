@@ -151,7 +151,7 @@
 //!
 //! ### Using async driver
 //!
-//! See examples/embassy.rs to see code for async case.
+//! See `examples/embassy.rs` to see the code for the async case.
 
 #![deny(unsafe_code, missing_docs)]
 #![no_std]
