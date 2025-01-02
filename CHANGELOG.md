@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
 
+## [1.0.0] - 2025-01-02
+
 ### Added
 - Async support based on `embedded-hal-async` 1.0.
 - Derive `Eq`, `Hash` for simple types.
@@ -50,6 +52,7 @@ this CHANGELOG.
 
 
 <!-- next-url -->
-[Unreleased]: https://github.com/eldruin/tcs3472-rs/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/eldruin/tcs3472-rs/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/eldruin/tcs3472-rs/compare/v0.2.0...v1.0.0
 [0.2.0]: https://github.com/eldruin/tcs3472-rs/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/eldruin/tcs3472-rs/compare/v0.1.0...v0.1.1
