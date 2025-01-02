@@ -12,20 +12,32 @@ homepage = "https://github.com/eldruin/tcs3472-rs"
 documentation = "https://docs.rs/tcs3472"
 edition = "2021"
 include = [
-    "/**/*.rs",
-    "/Cargo.toml",
-    "/README.md",
-    "/CHANGELOG.md",
-    "/LICENSE-MIT",
-    "/LICENSE-APACHE",
+  "/**/*.rs",
+  "/Cargo.toml",
+  "/README.md",
+  "/CHANGELOG.md",
+  "/LICENSE-MIT",
+  "/LICENSE-APACHE",
 ]
+
+[features]
+default = []
+async = ["dep:embedded-hal-async"]
 
 [dependencies]
 embedded-hal = "1.0"
+embedded-hal-async = { version = "1.0", optional = true }
+maybe-async-cfg = "0.2.3"
 
 [dev-dependencies]
 linux-embedded-hal = "0.4"
-embedded-hal-mock = "0.10"
+embedded-hal-mock = { version = "0.10", default-features = false, features = ["eh1"] }
+embassy-executor = "0.6.3"
 
 [profile.release]
 lto = true
+
+[[example]]
+name = "embassy"
+path = "examples/embassy.rs"
+required-features = ["async"]

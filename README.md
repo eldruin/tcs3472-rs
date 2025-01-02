@@ -83,6 +83,34 @@ fn main() {
 }
 ```
 
+This driver also supports the `embedded-hal-async` traits if the `async` feature is enabled in the `Cargo.toml` file:
+
+```toml
+tcs3472 = { version = "0.3.0", features = ["async"] }
+```
+
+Example how it looks like when using the [Embassy](https://embassy.dev/) framework:
+
+```rust
+#[embassy_executor::main]
+async fn main(_spawner: Spawner) {
+    let p = embassy_stm32::init(Default::default());
+    // embassy i2c setup details omitted
+    let mut i2c = I2c::new(..);
+    let mut sensor = Tcs3472::new(i2c);
+    sensor.enable().await.unwrap();
+    sensor.enable_rgbc().await.unwrap();
+    while !sensor.is_rgbc_status_valid().await.unwrap() {
+        // wait for measurement to be available
+    };
+    let m = sensor.read_all_channels().await.unwrap();
+    defmt::info!(
+        "Measurements: clear = {}, red = {}, green = {}, blue = {}",
+        m.clear, m.red, m.green, m.blue
+    );
+}
+```
+
 ## Minimum Supported Rust Version (MSRV)
 
 This crate is guaranteed to compile on stable Rust 1.81.0 and up. It *might*

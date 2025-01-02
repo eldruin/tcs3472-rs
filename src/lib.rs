@@ -148,11 +148,13 @@
 //! sensor.set_rgbc_interrupt_persistence(RgbCInterruptPersistence::_5).unwrap();
 //! sensor.enable_rgbc_interrupts().unwrap();
 //! ```
+//!
+//! ### Using async driver
+//!
+//! See `examples/embassy.rs` to see the code for the async case.
 
 #![deny(unsafe_code, missing_docs)]
 #![no_std]
-
-use embedded_hal::i2c;
 
 mod configuration;
 mod interface;
@@ -170,10 +172,7 @@ pub struct Tcs3472<I2C> {
     enable: u8,
 }
 
-impl<I2C, E> Tcs3472<I2C>
-where
-    I2C: i2c::I2c<Error = E>,
-{
+impl<I2C> Tcs3472<I2C> {
     /// Create new instance of the TCS3472 device.
     pub fn new(i2c: I2C) -> Self {
         Tcs3472 { i2c, enable: 0 }
