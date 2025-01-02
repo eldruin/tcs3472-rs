@@ -89,7 +89,7 @@ This driver also supports the `embedded-hal-async` traits if the `async` feature
 tcs3472 = { version = "0.3.0", features = ["async"] }
 ```
 
-Example how it looks like when using [Embassy](https://embassy.dev/) framework:
+Example how it looks like when using the [Embassy](https://embassy.dev/) framework:
 
 ```rust
 #[embassy_executor::main]
